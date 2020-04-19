@@ -28,8 +28,10 @@ def usage():
     print '--help               this help'
     print
     print 'Search settings:'
+    print '  --debug        debug mode (default=False, choose between [True, False]) '
     print '  --path         set path to RRF files (default=/var/www/RRFTracker/)'
-    print '  --room         analyse room (default=RRF, choose between [RRF, TECHNIQUE, BAVARDAGE, LOCAL, INTERNATIONAL,FON]) '
+    print '  --room         analyse room (default=RRF, choose between [ALL, RRF, TECHNIQUE, BAVARDAGE, LOCAL, INTERNATIONAL,FON]) '
+    print '  --year        	analyse on year (default=current year)'
     print '  --month        analyse on month (default=current month)'
     print '  --week         analyse on week'
     print '  --order        analyse room (default=BF, choose between [BF, TX, INTEMPESTIF, RATIO]) '

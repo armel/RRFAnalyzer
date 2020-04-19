@@ -72,9 +72,7 @@ def main(argv):
         'TECHNIQUE',
         'BAVARDAGE',
         'INTERNATIONAL',
-        'LOCAL',
-        'EXPERIMENTAL',
-        'FON'
+        'LOCAL'
     }
 
     tx = dict()
@@ -128,7 +126,7 @@ def main(argv):
         time_total = 0
 
         for f in file:
-            #print f
+            print f
             if os.path.isfile(f):
                 rrf_json = open(f)
                 rrf_data = rrf_json.read()

@@ -10,10 +10,12 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 import datetime
 
+search_debug = False
 search_path = '/var/www/RRFTracker/'
-search_pattern = datetime.datetime.now().strftime('%Y-%m')
+search_year = datetime.datetime.now().strftime('%Y')
+search_month = datetime.datetime.now().strftime('%m')
 search_type = 'month'
-search_room = 'RRF'
+search_room = ['RRF']
 search_order = 'BF'
 
 all = dict()
