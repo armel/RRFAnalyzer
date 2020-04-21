@@ -31,25 +31,29 @@ def usage():
     print '  --debug        debug mode (default=False, choose between [True, False]) '
     print '  --path         set path to RRF files (default=/var/www/RRFTracker/)'
     print '  --room         analyse room (default=RRF, choose between [ALL, RRF, TECHNIQUE, BAVARDAGE, LOCAL, INTERNATIONAL,FON]) '
-    print '  --year        	analyse on year (default=current year)'
+    print '  --year         analyse on year (default=current year)'
     print '  --month        analyse on month (default=current month)'
     print '  --week         analyse on week'
     print '  --order        analyse room (default=BF, choose between [BF, TX, INTEMPESTIF, RATIO]) '
+    print '  --format       analyse room (default=TEXT, choose between [TEXT, JSON]) '
     print
     print '88 & 73 from F4HWN Armel'
 
 # Convert second to time
-def convert_second_to_time(time):
+def convert_second_to_time(time, time_format):
     hours = time // 3600
     time = time - (hours * 3600)
 
     minutes = time // 60
     seconds = time - (minutes * 60)
 
+    '''
     if hours == 0:
         return str('{:0>2d}'.format(int(minutes))) + 'm ' + str('{:0>2d}'.format(int(seconds))) + 's'
     else:
         return str('{:0>2d}'.format(int(hours))) + 'h ' + str('{:0>2d}'.format(int(minutes))) + 'm ' + str('{:0>2d}'.format(int(seconds))) + 's'
+    '''
+    return str(time_format.format(int(hours))) + 'h ' + str('{:0>2d}'.format(int(minutes))) + 'm ' + str('{:0>2d}'.format(int(seconds))) + 's'
 
 
 # Convert time to second
