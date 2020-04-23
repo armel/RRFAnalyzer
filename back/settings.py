@@ -18,11 +18,3 @@ analyse_type = 'month'
 analyse_room = ['RRF']
 analyse_order = 'BF'
 analyse_format = 'TEXT'
-
-all = dict()
-abstract = {
-    "Links": 0, 
-    "Durée": 0, 
-    "TX": 0, 
-    "Intempestif": 0
-}

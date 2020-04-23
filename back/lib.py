@@ -40,7 +40,7 @@ def usage():
     print '88 & 73 from F4HWN Armel'
 
 # Convert second to time
-def convert_second_to_time(time, time_format):
+def convert_second_to_time(time, time_format='{:0>2d}'):
     hours = time // 3600
     time = time - (hours * 3600)
 

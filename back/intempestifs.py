@@ -91,10 +91,12 @@ def main(argv):
 
     # Loop
 
+    flux = dict()
     time_max = 0
 
     for r in s.analyse_room:
         file = []
+        all = {}
 
         if s.analyse_type == 'month':
             s.analyse_pattern = s.analyse_year + '-' +  s.analyse_month
@@ -131,137 +133,85 @@ def main(argv):
                     rrf_data = json.loads(rrf_data)
 
                     for data in rrf_data['all']:
-                        try:
-                            s.all[data[u'Indicatif'].encode('utf-8')][0] += l.convert_time_to_second(data[u'Durée'])
-                            if s.all[data[u'Indicatif'].encode('utf-8')][0] > time_max:
-                                time_max = s.all[data[u'Indicatif'].encode('utf-8')][0]
-                            s.all[data[u'Indicatif'].encode('utf-8')][1] += data[u'TX']
-                        except:
-                            s.all[data[u'Indicatif'].encode('utf-8')] = [l.convert_time_to_second(data[u'Durée']), data[u'TX'], 0, 0]
+                        indicatif = data[u'Indicatif'].encode('utf-8')
+                        check = indicatif.split(' ')
+                        if len(check) == 3 or indicatif == 'GW-C4FM':
+                            try:
+                                all[indicatif][0] += l.convert_time_to_second(data[u'Durée'])
+                                if all[indicatif][0] > time_max:
+                                    time_max = all[indicatif][0]
+                                all[indicatif][1] += data[u'TX']
+                            except:
+                                all[indicatif] = [l.convert_time_to_second(data[u'Durée']), data[u'TX'], 0, 0]
 
                     for data in rrf_data['porteuse']:
-                        try:
-                            s.all[data[u'Indicatif'].encode('utf-8')][2] += data[u'TX']
-                        except:
-                            s.all[data[u'Indicatif'].encode('utf-8')] = [0, 0, data[u'TX'], 0]
+                        indicatif = data[u'Indicatif'].encode('utf-8')
+                        check = indicatif.split(' ')
+                        if len(check) == 3 or indicatif == 'GW-C4FM':
+                            try:
+                                all[indicatif][2] += data[u'TX']
+                            except:
+                                all[indicatif] = [0, 0, data[u'TX'], 0]
                 except:
                     pass 
 
-    # Clean artefect
+        # Clean artefect
 
-    if 'RRF' in s.all:
-        del s.all['RRF']
-    if 'F5ZIN-L' in s.all:
-        del s.all['F5ZIN-L']
+        time_format = '{:0>' + str(len(str(time_max // 3600))) + 'd}'
 
-    time_format = '{:0>' + str(len(str(time_max // 3600))) + 'd}'
+        # Compute ratio and abstract
 
-    # Compute ratio and abstract
+        abstract = {
+            "Links total": 0, 
+            "Emission cumulée": 0, 
+            "TX total": 0, 
+            "Intempestifs total": 0
+        }
 
-    for e in s.all:
-        if s.all[e][2] != 0:
-            s.all[e][3] = s.all[e][0] / s.all[e][2]
-        s.abstract['Links'] += 1
-        s.abstract['Durée'] += s.all[e][0]
-        s.abstract['TX'] += s.all[e][1]
-        s.abstract['Intempestif'] += s.all[e][2]
+        for e in all:
+            abstract['Links total'] += 1
+            abstract['Emission cumulée'] += all[e][0]
+            abstract['TX total'] += all[e][1]
+            abstract['Intempestifs total'] += all[e][2]
+            if all[e][2] != 0:  # Prevent divide by zero...
+                all[e][3] = all[e][0] / all[e][2]
+            else:
+                all[e][3] = -1
 
-    # Sort by order 
+        abstract['Emission cumulée'] = l.convert_second_to_time(abstract['Emission cumulée'])
 
-    if s.analyse_order == 'BF':
-        tmp = sorted(s.all.items(), key=lambda x: x[1][0])
-        tmp.reverse()
-    elif s.analyse_order == 'TX':
-        tmp = sorted(s.all.items(), key=lambda x: x[1][1])
-        tmp.reverse()
-    elif s.analyse_order == 'INTEMPESTIF':
-        tmp = sorted(s.all.items(), key=lambda x: x[1][2])
-        tmp.reverse()
-    elif s.analyse_order == 'RATIO':
-        tmp = sorted(s.all.items(), key=lambda x: x[1][3])
-        tmp.reverse()
+        # Sort by order 
 
-    # Debug trace
+        if s.analyse_order == 'BF':
+            tmp = sorted(all.items(), key=lambda x: x[1][0])
+            tmp.reverse()
+        elif s.analyse_order == 'TX':
+            tmp = sorted(all.items(), key=lambda x: x[1][1])
+            tmp.reverse()
+        elif s.analyse_order == 'INTEMPESTIF':
+            tmp = sorted(all.items(), key=lambda x: x[1][2])
+            tmp.reverse()
+        elif s.analyse_order == 'RATIO':
+            tmp = sorted(all.items(), key=lambda x: x[1][3])
+            tmp.reverse()
 
-    if s.analyse_debug is True:
+        # Compute log
 
-        print '===================='
-        if len(s.analyse_room) > 1:
-            print l.color.BLUE + 'ALL order by ' + s.analyse_order + l.color.END
-        else:
-            print l.color.BLUE + r + ' order by ' + s.analyse_order + l.color.END
-        print '===================='
+        log = []
+        indice = 1
+        for e in tmp:
+            log.append({'Pos': indice, 'Indicatif': e[0], 'Emission cumulée': l.convert_second_to_time(e[1][0], time_format), 'TX total': e[1][1], 'Intempestifs total': e[1][2], 'Ratio': e[1][3]})
+            indice += 1
 
-    # Print result by format
+        # Prepare JSON
 
-    if s.analyse_format == 'TEXT':
+        flux.update({r: {'abstract': [abstract], 'log': log}})
+        '''
+        flux.update({'abstract': [abstract]})
+        flux.update({'log': log})
+        '''
 
-        if len(tmp) == 0:
-            print 'No data !!!'
-        else:
-            indice = 1
-            for e in tmp:
-                check = e[0].split(' ')
-                print '%03d' % indice, '\t',
-                print e[0], '\t',
-                if len(e[0]) < 7:
-                    print '\t',
-                if len(e[0]) < 15:
-                    print '\t',
-                conversion = l.convert_second_to_time(e[1][0], time_format)
-                print conversion,
-                print '\t',
-                print e[1][1],
-                print '\t',
-                print e[1][2],
-                print '\t',
-                print "% 8.2f" % round(e[1][3], 2)
-
-                indice += 1
-
-    elif s.analyse_format == 'JSON':
-
-        if len(tmp) == 0:
-            data = '{}'
-        else :
-            data = ''
-            data += '{\n'
-            data += '"abstract":'
-            data += '[\n'
-            data += '{\n'
-            data += '\t"Links": ' + str(s.abstract['Links']) + ',\n'
-            data += '\t"Durée": "' +  l.convert_second_to_time(s.abstract['Durée'], time_format) + '",\n'
-            data += '\t"TX": ' + str(s.abstract['TX']) + ',\n'
-            data += '\t"Intempestif": ' + str(s.abstract['Intempestif']) + '\n'
-            data += '}\n'
-            data += '],\n'
-
-            data += '"log":'
-            data += '[\n'
-            indice = 1
-            for e in tmp:
-                check = e[0].split(' ')
-                data += '{\n'
-                data += '\t"Pos": ' + str(indice) + ',\n'
-                data += '\t"Indicatif": "' + e[0] + '",\n'
-                conversion = l.convert_second_to_time(e[1][0], time_format)
-                data += '\t"Durée": "' + conversion + '",\n'
-                #data += '\t"Durée": ' + str(e[1][0]) + ',\n'
-                data += '\t"TX": ' + str(e[1][1]) + ',\n'
-                data += '\t"Intempestif": ' + str(e[1][2]) + ',\n'
-                if e[1][2] == 0:
-                    data += '\t"Ratio": -1\n'
-                else:
-                    data += '\t"Ratio": ' + str(round(e[1][3], 2)) + '\n'
-                data += '},\n'
-                indice += 1
-            data += ']\n'
-            data += '}\n'
-
-        last = data.rfind(',')
-        data = data[:last] + '' + data[last + 1:]
-
-        print data
+    print json.dumps(flux, sort_keys=True)
 
 if __name__ == '__main__':
     try:

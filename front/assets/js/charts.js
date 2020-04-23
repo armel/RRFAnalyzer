@@ -1,105 +1,31 @@
 ;
 (function() {
-
     d3.json('analyzer.json', function(error, data) {
         if (error) {
             return console.warn('Erreur', error);
         } else {
+            var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
+            var containerSelector;
+            var containerTitle;
 
-            abstract = data['abstract']
-            log = data['log']
 
-            const containerSelector = '.abstract-table';
-            const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> Résumé';
+            room.forEach(function(r) {
 
-            tabulate(abstract, ['Links', 'Durée', 'TX', 'Intempestif'], containerSelector, containerTitle); // 4 columns table
+                abstract = data[r]['abstract']
+                //log = data[r]['log']
 
-            var sortInfo = {
-                key: 'Pos',
-                order: d3.descending
-            };
+                containerSelector = '.abstract-' + r.toLowerCase();
+                containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> Résumé du salon ' + r;
 
-            /*
-            var table = d3.select('body').insert('table', ':first-child').attr('id', 'NameList');
-            var thead = table.append('thead');
-            var tbody = table.append('tbody');
-            */
+                console.log(containerSelector);
 
-            d3.select('.log-table').html('');
-            d3.select('.log-table').append('h2').html("Log");
+                tabulate(abstract, ['Emission cumulée', 'Links total', 'TX total', 'Intempestifs total'], containerSelector, containerTitle); // 4 columns table
 
-            var table = d3.select('.log-table').append('table');
-            var thead = table.append('thead');
-            var tbody = table.append('tbody');
+                containerSelector = '.log-' + r.toLowerCase();
+                containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> Log du salon ' + r;
 
-            thead.append('tr')
-                .selectAll('th')
-                .data(d3.entries(log[0]))
-                .enter()
-                .append('th')
-                .on('click', function(d, i) {
-                    create_table_body(d.key);
-                })
-                .text(function(d) {
-                    return d.key;
-                });
-
-            create_table_body('id');
-
-            function create_table_body(sortKey) {
-                if (sortInfo.order.toString() == d3.ascending.toString()) {
-                    sortInfo.order = d3.descending;
-                } else {
-                    sortInfo.order = d3.ascending;
-                }
-
-                log.sort(function(x, y) {
-                    return sortInfo.order(x[sortKey], y[sortKey])
-                });
-
-                log_copy = log.slice();
-
-                var indice = 1
-                log_copy.forEach(function(d) {
-                    d.Pos = indice;
-                    indice++;
-                });
-
-                tbody
-                    .selectAll('tr')
-                    .data(log_copy)
-                    .enter()
-                    .append('tr')
-                    .selectAll('td')
-                    .data(function(d) {
-                        return d3.entries(d)
-                    })
-                    .enter()
-                    .append('td')
-                    .text(function(d) {
-                        return d.value;
-                    });
-                tbody
-                    .selectAll('tr')
-                    .data(log_copy)
-                    .selectAll('td')
-                    .data(function(d) {
-                        return d3.entries(d)
-                    })
-                    .text(function(d) {
-                        if (d.key == 'Ratio') {
-                            if (is_float(d.value)) {
-                                return d.value.toFixed(2)
-                            } else if (d.value == -1) {
-                                return '∞';
-                            } else {
-                                return d.value + '.00'
-                            }
-                        } else {
-                            return d.value;
-                        }
-                    });
-            }
+                tabulate_order(data[r]['log'], ['Pos', 'Indicatif', 'Emission cumulée', 'TX total', 'Intempestifs total', 'Ratio'], containerSelector, containerTitle); // 4 columns table
+            });
         }
     });
 })();
