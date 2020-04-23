@@ -2,28 +2,46 @@
 <html lang="fr">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset='utf-8'>
-    <title>RRFAnalyser par F4HWN Armel</title>
-    <link rel="shortcut icon" href="http://rrf.f5nlg.ovh/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="./assets/css/main.css" />
-    <link rel="stylesheet" type="text/css" href="./assets/css/icofont.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset='utf-8'>
+  <title>RRFAnalyser par F4HWN Armel</title>
+  <link rel="shortcut icon" href="http://rrf.f5nlg.ovh/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.min.css" />
+  <link rel="stylesheet" type="text/css" href="./assets/css/main.css" />
+  <link rel="stylesheet" type="text/css" href="./assets/css/icofont.css" />
 </head>
 
 <body>
-  <div class="abstract-table abstract-all"></div>
-  <div class="log-table log-all"></div>
-  <div class="abstract-table abstract-rrf"></div>
-  <div class="log-table log-rrf"></div>
-  <div class="abstract-table abstract-technique"></div>
-  <div class="log-table log-technique"></div>
-  <div class="abstract-table abstract-bavardage"></div>
-  <div class="log-table log-bavardage"></div>
-  <div class="abstract-table abstract-local"></div>
-  <div class="log-table log-local"></div>
-  <div class="abstract-table abstract-international"></div>
-  <div class="log-table log-international"></div>
+
+  <div class="columns">
+    <div>
+      <div class="graph-container abstract-table abstract-all"></div>
+      <div class="graph-container log-table log-all"></div>
+      <div class="graph-container abstract-table abstract-rrf"></div>
+      <div class="graph-container log-table log-rrf"></div>
+      <div class="graph-container abstract-table abstract-technique"></div>
+      <div class="graph-container log-table log-technique"></div>
+      <div class="graph-container abstract-table abstract-bavardage"></div>
+      <div class="graph-container log-table log-bavardage"></div>
+      <div class="graph-container abstract-table abstract-local"></div>
+      <div class="graph-container log-table log-local"></div>
+      <div class="graph-container abstract-table abstract-international"></div>
+      <div class="graph-container log-table log-international"></div>
+    </div>
+    <div>
+      <div class="scrollbar-hidden">
+        <div class="graph-container tot-graph"></div>
+        <div class="graph-container last-table"></div>
+        <div class="graph-container all-table"></div>
+        <div class="graph-container tot-table"></div>
+        <div class="graph-container porteuse-table"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+  <script src="./assets/js/flipclock.min.js"></script>
   <script src="./assets/js/functions.js"></script>
   <script src="./assets/js/charts.js"></script>
 </body>

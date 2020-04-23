@@ -246,6 +246,7 @@ def main(argv):
         else:
             total[e][3] = -1
 
+    flux.update({'Counter': abstract['Emission cumulée']})
     abstract['Emission cumulée'] = l.convert_second_to_time(abstract['Emission cumulée'])
 
     # Sort by order 

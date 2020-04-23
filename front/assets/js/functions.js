@@ -2,11 +2,18 @@ function is_float(n) {
     return Number(n) === n && n % 1 !== 0;
 }
 
-function tabulate(data, columns, selector, title) {
+function number_format(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
+function tabulate(data, columns, selector, title, legend, width) {
     d3.select(selector).html('');
     d3.select(selector).append('h2').html(title);
 
-    var table = d3.select(selector).append('table');
+    var table = d3.select(selector)
+                .append('table')
+                .attr('width', width + 'px');
+
     var thead = table.append('thead');
     var tbody = table.append('tbody');
 
@@ -39,17 +46,25 @@ function tabulate(data, columns, selector, title) {
         .enter()
         .append('td')
         .html(function(d, i) {
-            return d.value;
+            if (d.column == 'TX total' || d.column == 'Intempestifs total') {
+                return number_format(d.value);
+            }
+            else {
+                return d.value;
+            }
         });
 
     return table;
 }
 
-function tabulate_order(data, columns, selector, title) {
+function tabulate_order(data, columns, selector, title, width) {
     d3.select(selector).html('');
     d3.select(selector).append('h2').html(title);
 
-    var table = d3.select(selector).append('table');
+    var table = d3.select(selector)
+                .append('table')
+                .attr('width', width + 'px');
+
     var thead = table.append('thead');
     var tbody = table.append('tbody');
 
@@ -64,6 +79,7 @@ function tabulate_order(data, columns, selector, title) {
         .data(columns)
         .enter()
         .append('th')
+        .attr('class','order')
         .on('click', function(d, i) {
             create_table_body(data, d);
         })
@@ -119,6 +135,9 @@ function tabulate_order(data, columns, selector, title) {
                 });
             })
             .text(function(d) {
+                if (d.column == 'TX total' || d.column == 'Intempestifs total') {
+                    return number_format(d.value);
+                }
                 if (d.column == 'Ratio') {
                     if (is_float(d.value)) {
                         return d.value.toFixed(2)
@@ -132,4 +151,22 @@ function tabulate_order(data, columns, selector, title) {
                 }
             });
     }
+}
+
+function emission(selector, time) {
+    d3.select(selector)
+        .append('div')
+        .attr('class', 'container')
+        .append('div')
+        .attr('class', 'center-clock')
+        .append('div')
+        .attr('class', 'clock')
+
+        clock = $('.clock').FlipClock(time, {
+            clockFace: 'HourlyCounter',
+            countdown: true,
+            showSeconds: false
+        });
+        
+    clock.stop(function() {});
 }

@@ -42,6 +42,44 @@ body {
    width: 100%;
 }
 
+.graph-container {
+    margin-bottom: 30px;
+}
+
+.graph-container h1 {
+    font: 16px Arial, Helvetica, sans-serif;
+    text-align: left;
+}
+
+.graph-container h2 {
+    font: 16px Arial, Helvetica, sans-serif;
+    text-align: left;
+    border-bottom: dotted 1px #000;
+    color: darkslategray;
+}
+
+.graph-container h3 {
+    font: 12px Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-weight: normal;
+    font-style: italic;
+    display: inline;
+    color: dimgray;
+}
+
+.graph-container span {
+    font: 12px Arial, Helvetica, sans-serif;
+    color: #999;
+    text-align: left;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.graph-container > .author {
+    margin-top: 20px;
+    color: #000;
+}
+
 .date {
     font: 10px Arial, Helvetica, sans-serif;
     color: #000;
@@ -50,11 +88,46 @@ body {
     padding: none;
 }
 
-h2 {
-    font: 16px Arial, Helvetica, sans-serif;
-    text-align: left;
-    border-bottom: dotted 1px #000;
-    color: darkslategray;
+svg {
+    box-sizing: content-box;
+    display: block;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+
+.axis {
+    font: 8px sans-serif;
+}
+
+.axis path,
+
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.value {
+    font: 12px Arial, Helvetica, sans-serif;
+    color: #000;
+}
+
+.bar {
+}
+
+.bar:hover {
+    fill: var(--color-theme);
+}
+
+.marquee {
+    font: 12px Arial, Helvetica, sans-serif;
+    color: #000;
+    overflow: hidden;
+    width:500px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    letter-spacing: 5px;
+    height: 20px;
 }
 
 .icon {
@@ -76,8 +149,23 @@ h2 {
     font-style: italic;
 }
 
+.bad {
+    background-color: lightgray;
+    border-top: 1px dotted black;
+    border-bottom: 1px dotted black;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: dimgray;
+    text-align: center;
+    font-style: italic;
+}
+
+.order {
+    color: var(--color-theme);
+    cursor: pointer;
+}
+
 table {
-    width: 80%;
     margin: 10px auto;
     padding: 10px;
     border-collapse: collapse;
@@ -92,11 +180,6 @@ table thead th {
     border: solid 1px dimgray;
     text-align: center;
     height: 30px;
-}
-
-table thead th:hover {
-    color: var(--color-theme);
-    cursor: pointer;
 }
 
 table tbody th {
@@ -133,6 +216,31 @@ a {
 a:hover {
     color: var(--color-theme);
     cursor: pointer;
+}
+
+.transmit tbody tr:first-child th {
+    padding-top: 10px;
+} 
+
+.transmit td {
+    width:70%;
+} 
+
+.elsewhere-table td:nth-child(1) {
+    background-color: lightgray;
+}
+
+.elsewhere-table th:nth-child(1) {
+    background-color: whitesmoke;
+    font-weight: normal;
+}
+
+.elsewhere-table tr:hover {
+    background-color: whitesmoke;
+}
+
+.blink {
+  animation: blinker 1s linear infinite;
 }
 
 @keyframes blinker {  
@@ -187,3 +295,28 @@ a:hover {
         overflow: auto;
     }
 }
+
+.center-clock {
+    margin: 0 auto;
+    width:240px;
+}
+
+.clock {
+    margin: 0;
+    padding-top: 10px;
+    zoom: 0.75;
+    -moz-transform: scale(0.75)
+}
+
+.flip-clock-wrapper {
+    height: 60px;
+}
+
+.flip-clock-wrapper ul {width: 40px;height: 60px;margin: 0 2px;}
+.flip-clock-wrapper ul li {line-height: 60px;}
+.flip-clock-wrapper ul li a div div.inn {border-radius: 3px;font-size: 50px;}
+.flip-clock-wrapper ul li a div.down {border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;}
+.flip-clock-wrapper ul li a div.up:after {top: 29px;height: 2px;}
+.flip-clock-dot {width: 8px; height: 8px; border-radius: 50%;}
+.flip-clock-dot.top {top: 15px;}
+.flip-clock-dot.bottom {bottom: 45px;}
