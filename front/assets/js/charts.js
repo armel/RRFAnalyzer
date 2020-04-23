@@ -8,18 +8,16 @@
             var containerSelector;
             var containerTitle;
 
+            containerSelector = '.abstract-all';
+            containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> Résumé total';
+
+            tabulate(data['ALL']['abstract'], ['Emission cumulée', 'Links total', 'TX total', 'Intempestifs total'], containerSelector, containerTitle); // 4 columns table
 
             room.forEach(function(r) {
-
-                abstract = data[r]['abstract']
-                //log = data[r]['log']
-
                 containerSelector = '.abstract-' + r.toLowerCase();
                 containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> Résumé du salon ' + r;
 
-                console.log(containerSelector);
-
-                tabulate(abstract, ['Emission cumulée', 'Links total', 'TX total', 'Intempestifs total'], containerSelector, containerTitle); // 4 columns table
+                tabulate(data[r]['abstract'], ['Emission cumulée', 'Links total', 'TX total', 'Intempestifs total'], containerSelector, containerTitle); // 4 columns table
 
                 containerSelector = '.log-' + r.toLowerCase();
                 containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> Log du salon ' + r;

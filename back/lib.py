@@ -58,6 +58,10 @@ def convert_second_to_time(time, time_format='{:0>2d}'):
 
 # Convert time to second
 def convert_time_to_second(time):
+    time = time.replace('h ', ':')
+    time = time.replace('m ', ':')
+    time = time.replace('s', '')
+
     if len(time) > 5:
         format = [3600, 60, 1]
     else:
