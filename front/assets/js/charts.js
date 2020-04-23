@@ -4,14 +4,9 @@
         if (error) {
             return console.warn('Erreur', error);
         } else {
-            var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
+            var room = ['ALL', 'RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
             var containerSelector;
             var containerTitle;
-
-            containerSelector = '.abstract-all';
-            containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> Résumé total';
-
-            tabulate(data['ALL']['abstract'], ['Emission cumulée', 'Links total', 'TX total', 'Intempestifs total'], containerSelector, containerTitle); // 4 columns table
 
             room.forEach(function(r) {
                 containerSelector = '.abstract-' + r.toLowerCase();

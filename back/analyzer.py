@@ -248,7 +248,31 @@ def main(argv):
 
     abstract['Emission cumulée'] = l.convert_second_to_time(abstract['Emission cumulée'])
 
-    flux.update({'ALL': {'abstract': [abstract]}})
+    # Sort by order 
+
+    if s.analyse_order == 'BF':
+        tmp = sorted(total.items(), key=lambda x: x[1][0])
+        tmp.reverse()
+    elif s.analyse_order == 'TX':
+        tmp = sorted(total.items(), key=lambda x: x[1][1])
+        tmp.reverse()
+    elif s.analyse_order == 'INTEMPESTIF':
+        tmp = sorted(total.items(), key=lambda x: x[1][2])
+        tmp.reverse()
+    elif s.analyse_order == 'RATIO':
+        tmp = sorted(total.items(), key=lambda x: x[1][3])
+        tmp.reverse()
+
+    # Compute log
+
+    log = []
+    indice = 1
+    for e in tmp:
+        log.append({'Pos': indice, 'Indicatif': e[0], 'Emission cumulée': l.convert_second_to_time(e[1][0], time_format), 'TX total': e[1][1], 'Intempestifs total': e[1][2], 'Ratio': e[1][3]})
+        indice += 1
+
+
+    flux.update({'ALL': {'abstract': [abstract], 'log': log}})
 
     print json.dumps(flux, sort_keys=True)
 
