@@ -49,6 +49,8 @@ def main(argv):
             s.analyse_type = 'month'
         elif opt in ('--week'):
             s.analyse_week = arg
+            if s.analyse_week == '0':
+                s.analyse_week = str(datetime.date.today().isocalendar()[1] - 1)
             s.analyse_type = 'week'
         elif opt in ('--day'):
             s.analyse_day = arg
@@ -107,9 +109,9 @@ def main(argv):
             s.analyse_pattern = s.analyse_week
             start_date = time.asctime(time.strptime(s.analyse_year + ' %d 1' % int(s.analyse_pattern), '%Y %W %w'))
             start_date = datetime.datetime.strptime(start_date, '%a %b %d %H:%M:%S %Y')
-            file = [s.analyse_path + 'RRF-' + start_date.strftime('%Y-%m-%d') + '/rrf.json']
+            file = [s.analyse_path + r + '-' + start_date.strftime('%Y-%m-%d') + '/rrf.json']
             for i in range(1, 7):
-                file.append(s.analyse_path + 'RRF-' + (start_date + datetime.timedelta(days=i)).strftime('%Y-%m-%d') + '/rrf.json')
+                file.append(s.analyse_path + r + '-' + (start_date + datetime.timedelta(days=i)).strftime('%Y-%m-%d') + '/rrf.json')
         else:
             s.analyse_pattern = int(s.analyse_day) - 1
             start_date = datetime.datetime.now() - datetime.timedelta(s.analyse_pattern)
@@ -162,6 +164,7 @@ def main(argv):
         # Compute ratio and abstract
 
         abstract = {
+            "Salon": '',
             "Links total": 0, 
             "Emission cumulée": 0, 
             "TX total": 0, 
@@ -178,6 +181,7 @@ def main(argv):
             else:
                 all[e][3] = -1
 
+        abstract['Salon'] = r
         abstract['Emission cumulée'] = l.convert_second_to_time(abstract['Emission cumulée'])
 
         # Sort by order 
@@ -230,6 +234,7 @@ def main(argv):
     # Compute ratio and abstract
 
     abstract = {
+        "Salon": '',
         "Links total": 0, 
         "Emission cumulée": 0, 
         "TX total": 0, 
@@ -245,6 +250,8 @@ def main(argv):
             total[e][3] = total[e][0] / total[e][2]
         else:
             total[e][3] = -1
+
+    abstract['Salon'] = 'Global'
 
     flux.update({'Counter': abstract['Emission cumulée']})
     abstract['Emission cumulée'] = l.convert_second_to_time(abstract['Emission cumulée'])
@@ -273,7 +280,9 @@ def main(argv):
         indice += 1
 
 
-    flux.update({'ALL': {'abstract': [abstract], 'log': log}})
+    flux.update({'Global': {'abstract': [abstract], 'log': log}})
+
+    flux.update({'Stat': s.stat_list})
 
     print json.dumps(flux, sort_keys=True)
 

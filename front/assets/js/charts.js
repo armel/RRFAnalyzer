@@ -1,5 +1,32 @@
 ;
 (function() {
+    // Get JSON Flux
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    var stat = urlParams.get('stat')
+    var when = ''
+
+    if(stat === null) {
+        stat = 30
+    }
+
+    if (stat == 1) {
+        when = 'aujourd\'hui'
+    }
+    else if (stat == 7) {
+        when = 'depuis le début de la semaine'
+    }
+    else if (stat == 30) {
+        when = 'depuis le début du mois'
+    }
+    else if (stat == 90) {
+        when = 'sur les 90 derniers jours'
+    }
+    else if (stat == 180) {
+        when = 'sur les 180 derniers jours'
+    }
+
     // Initialise color
     if (localStorage.getItem('color') === null) {
         localStorage.setItem('color', 'DarkOrange');
@@ -24,45 +51,76 @@
             height = Math.max(width / 3, 250) - margin.top - margin.bottom;
 
 
-    d3.json('analyzer.json', function(error, data) {
+    d3.json('analyzer_' + stat + '.json', function(error, data) {
         if (error) {
             return console.warn('Erreur', error);
         } else {
-            var room = ['ALL', 'RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
+            var room = ['Global', 'RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
+            var elsewhere = [];
             var containerSelector;
             var containerTitle;
             var containerLegend;
 
             room.forEach(function(r) {
-                if (r == 'ALL') {
-                    var where = 'général' 
+                if (r == 'Global') {
+                    var where = 'globale' 
                 }
                 else {
                     var where = 'du salon ' + r
                 }
+                elsewhere.push(data[r]['abstract'][0])
 
                 containerSelector = '.abstract-' + r.toLowerCase();
-                containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> Résumé ' + where;
-                containerLegend = 'Ce tableau présente le résumé de l\'activité ' + where + ' : émission cumulée, nombre total de links actifs, de passages en émission et de déclenchements intempestifs. ';
+                containerTitle = '<div id=' + r + ' class="icon"><i class="icofont-info-circle"></i></div> Synthèse ' + where;
+                containerLegend = 'Ce tableau présente la synthèse de l\'activité ' + where + ' : émission cumulée, nombre total de links actifs, de passages en émission et de déclenchements intempestifs. ';
 
                 tabulate(data[r]['abstract'], ['Emission cumulée', 'Links total', 'TX total', 'Intempestifs total'], containerSelector, containerTitle, containerLegend, width + margin.left + margin.right); // 4 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
 
+                if (where == 'globale') {
+                    where_patch = 'global'
+                }
+                else {
+                    where_patch = where                    
+                }
+
                 containerSelector = '.log-' + r.toLowerCase();
-                containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> Log ' + where;
+                containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> Log ' + where_patch;
                 containerLegend = 'Ce tableau présente l\'activité ' + where + ' par link : émission cumulée, nombre total de passages en émission, de déclenchements intempestifs et ratio. Le ratio est calculé en divisant le nombre de secondes en émission par le nombre de déclenchements intempestifs. Plus ce ratio est faible, plus le link est perturbant...';
 
                 tabulate_order(data[r]['log'], ['Pos', 'Indicatif', 'Emission cumulée', 'TX total', 'Intempestifs total', 'Ratio'], containerSelector, containerTitle, width + margin.left + margin.right); // 4 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
             });
 
+            containerSelector = '.abstract-elsewhere';
+            containerTitle = '<div class="icon"><i class="icofont-dashboard-web"></i></div> Synthèse globale et par salon ' + when
+            containerLegend = 'Ce tableau présente la synthèse totale et par salon de l\'activité : émission cumulée, nombre total de links actifs, de passages en émission et de déclenchements intempestifs. ';
+
+            tabulate_elsewhere(elsewhere, ['Salon', 'Emission cumulée', 'Links total', 'TX total', 'Intempestifs total'], containerSelector, containerTitle, containerLegend, width + margin.left + margin.right); // 4 columns table
+            d3.select(containerSelector).append('span').text(containerLegend);
+
             containerSelector = '.tot-graph'
             containerTitle = '<div class="icon"><i class="icofont-mic"></i></div> Emission cumulée'
-            d3.select(containerSelector).html('');
-            d3.select(containerSelector).append('h2').html(containerTitle);
+            containerLegend = 'Ce compteur affiche la durée émission cumulée en heures et minutes.';
 
-            console.log(data['Counter'])
-            emission(containerSelector, data['Counter'])
+            emission(containerSelector, data['Counter'], containerTitle, width + margin.left + margin.right);
+            d3.select(containerSelector).append('span').text(containerLegend);
+
+            containerSelector = '.stat-table'
+            containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> Autres statistiques'
+            containerLegend = 'Ce tableau permet de pointer vers d\'autres stats.';
+
+            tabulate_stat(data['Stat'], ['Autres stats'], containerSelector, containerTitle, containerLegend, width + margin.left + margin.right); // 4 columns table
+            d3.select(containerSelector).append('span').text(containerLegend);
+
+            containerSelector = '.author-legend';
+            var containerAuthor = '<a href="https://github.com/armel/RRFAnalyzer">RRFAnalyzer</a> est un projet Open Source, développé par <a href="https://www.qrz.com/db/F4HWN">F4HWN Armel</a>, sous licence MIT.<br>Couleur actuelle du thème <a onClick="color(\'' + colorSelected + '\');">' + colorSelected + '</a>.';
+
+            d3.select(containerSelector).html('');
+            d3.select(containerSelector).append('span')
+                .attr('class', 'author')
+                .html(containerAuthor);
+
         }
     });
 })();

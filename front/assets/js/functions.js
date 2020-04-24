@@ -57,6 +57,112 @@ function tabulate(data, columns, selector, title, legend, width) {
     return table;
 }
 
+function tabulate_elsewhere(data, columns, selector, title, legend, width) {
+    d3.select(selector).html('');
+    d3.select(selector).append('h2').html(title);
+
+    var table = d3.select(selector)
+                .append('table')
+                .attr('width', width + 'px');
+
+    var thead = table.append('thead');
+    var tbody = table.append('tbody');
+
+    // Append the header row
+    thead.append('tr')
+        .selectAll('th')
+        .data(columns)
+        .enter()
+        .append('th')
+        .text(function(column) {
+            return column;
+        });
+
+    // Create a row for each object in the data
+    var rows = tbody.selectAll('tr')
+        .data(data)
+        .enter()
+        .append('tr');
+
+    // Create a cell in each row for each column
+    var cells = rows.selectAll('td')
+        .data(function(row) {
+            return columns.map(function(column) {
+                return {
+                    column: column,
+                    value: row[column]
+                };
+            });
+        })
+        .enter()
+        .append('td')
+        .html(function(d, i) {
+            if (d.column == 'TX total' || d.column == 'Intempestifs total') {
+                return number_format(d.value);
+            }
+            else if(d.column == 'Salon') {
+                return '<a href="#' + d.value + '">' + d.value + '</a>';
+            }
+            else {
+                return d.value;
+            }
+        });
+
+    return table;
+}
+
+function tabulate_stat(data, columns, selector, title, legend, width) {
+    d3.select(selector).html('');
+    d3.select(selector).append('h2').html(title);
+
+    var table = d3.select(selector)
+                .append('table')
+                .attr('width', width + 'px');
+
+    var thead = table.append('thead');
+    var tbody = table.append('tbody');
+
+    var url = location.protocol + '//' + location.host + location.pathname
+    var value = [1, 7, 30, 90, 180];
+    var indice = 0
+
+    // Append the header row
+    thead.append('tr')
+        .selectAll('th')
+        .data(columns)
+        .enter()
+        .append('th')
+        .text(function(column) {
+            return column;
+        });
+
+    // Create a row for each object in the data
+    var rows = tbody.selectAll('tr')
+        .data(data)
+        .enter()
+        .append('tr');
+
+    // Create a cell in each row for each column
+    var cells = rows.selectAll('td')
+        .data(function(row) {
+            return columns.map(function(column) {
+                return {
+                    column: column,
+                    value: row[column]
+                };
+            });
+        })
+        .enter()
+        .append('td')
+        .html(function(d, i) {
+            arg = value[indice]
+            indice += 1
+            return '<a href="' + url + '?stat=' + arg + '">' + d.value + '</a>'; 
+        });
+
+    return table;
+}
+
 function tabulate_order(data, columns, selector, title, width) {
     d3.select(selector).html('');
     d3.select(selector).append('h2').html(title);
@@ -153,7 +259,10 @@ function tabulate_order(data, columns, selector, title, width) {
     }
 }
 
-function emission(selector, time) {
+function emission(selector, time, title, width) {
+    d3.select(selector).html('');
+    d3.select(selector).append('h2').html(title);
+
     d3.select(selector)
         .append('div')
         .attr('class', 'container')
@@ -162,11 +271,52 @@ function emission(selector, time) {
         .append('div')
         .attr('class', 'clock')
 
+    d3.select(selector)
+        .append('table')
+        .attr('width', width + 'px')
+        .attr('class', 'transmit')
+
         clock = $('.clock').FlipClock(time, {
             clockFace: 'HourlyCounter',
             countdown: true,
             showSeconds: false
         });
-        
+
     clock.stop(function() {});
 }
+
+function color(colorSelected) {
+
+    var newColor;
+
+    if (colorSelected == 'SteelBlue') {
+        newColor = 'ForestGreen';
+    }
+    else if (colorSelected == 'ForestGreen') {
+        newColor = 'DarkOrange';
+    }
+    else if (colorSelected == 'DarkOrange') {
+        newColor = 'DarkCyan';
+    }
+    else if (colorSelected == 'DarkCyan') {
+        newColor = 'DarkMagenta';
+    }
+    else if (colorSelected == 'DarkMagenta') {
+        newColor = 'DarkKhaki';
+    }
+    else if (colorSelected == 'DarkKhaki') {
+        newColor = 'DimGray';
+    }
+    else if (colorSelected == 'DimGray') {
+        newColor = 'Crimson';
+    }
+    else if (colorSelected == 'Crimson') {
+        newColor = 'SteelBlue';
+    }
+
+    localStorage.setItem('color', newColor);
+
+    window.location.reload(false); 
+    return 0;
+}
+

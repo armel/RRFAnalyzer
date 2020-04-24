@@ -18,3 +18,21 @@ analyse_type = 'month'
 analyse_room = ['RRF']
 analyse_order = 'BF'
 analyse_format = 'TEXT'
+
+stat_list = [
+	{
+		'Autres stats' : 'Aujourd\'hui',
+	},
+	{
+		'Autres stats' : 'Depuis le début de la semaine',
+	},
+	{
+		'Autres stats' : 'Depuis le début du mois',
+	},
+	{
+		'Autres stats' : 'Sur les 90 derniers jours',
+	},
+	{
+		'Autres stats' : 'Sur les 180 derniers jours',
+	}
+]

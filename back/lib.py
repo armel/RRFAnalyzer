@@ -34,6 +34,7 @@ def usage():
     print '  --year         analyse on year (default=current year)'
     print '  --month        analyse on month (default=current month)'
     print '  --week         analyse on week'
+    print '  --day          analyse on day'
     print '  --order        analyse room (default=BF, choose between [BF, TX, INTEMPESTIF, RATIO]) '
     print '  --format       analyse room (default=TEXT, choose between [TEXT, JSON]) '
     print
