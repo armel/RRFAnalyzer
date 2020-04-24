@@ -11,40 +11,6 @@
         stat = 'm'
     }
 
-    if (stat == 'd1') {
-        when = 'aujourd\'hui'
-    }
-    else if (stat == 'w') {
-        when = 'depuis le début de la semaine'
-    }
-    else if (stat == 'm') {
-        when = 'depuis le début du mois'
-    }
-    else if (stat == 'm1') {
-        when = 'du mois N - 1'
-    }
-    else if (stat == 'm2') {
-        when = 'du mois N - 2'
-    }
-    else if (stat == 'm3') {
-        when = 'du mois N - 3'
-    }
-    else if (stat == 'm4') {
-        when = 'du mois N - 4'
-    }
-    else if (stat == 'm5') {
-        when = 'du mois N - 5'
-    }
-    else if (stat == 'm6') {
-        when = 'du mois N - 6'
-    }
-    else if (stat == 'd90') {
-        when = 'sur les 90 derniers jours'
-    }
-    else if (stat == 'd180') {
-        when = 'sur les 180 derniers jours'
-    }
-
     // Initialise color
     if (localStorage.getItem('color') === null) {
         localStorage.setItem('color', 'DarkOrange');
@@ -111,7 +77,7 @@
             });
 
             containerSelector = '.abstract-elsewhere';
-            containerTitle = '<div class="icon"><i class="icofont-dashboard-web"></i></div> Synthèse globale et par salon ' + when
+            containerTitle = '<div class="icon"><i class="icofont-dashboard-web"></i></div> Synthèse globale et par salon ' + data['When']
             containerLegend = 'Ce tableau présente la synthèse totale et par salon de l\'activité : émission cumulée, nombre total de links actifs, de passages en émission et de déclenchements intempestifs. ';
 
             tabulate_elsewhere(elsewhere, ['Salon', 'Emission cumulée', 'Links total', 'TX total', 'Intempestifs total'], containerSelector, containerTitle, containerLegend, width + margin.left + margin.right); // 4 columns table

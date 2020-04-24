@@ -84,6 +84,20 @@ def main(argv):
 
     # Debug trace
 
+    when = ''
+    if s.analyse_type == 'month':
+        if s.analyse_month == str(0):
+            when = 'depuis le début du mois'
+        else:
+            when = 'du mois ' + s.analyse_month + '/' + s.analyse_year
+    elif s.analyse_type == 'week':
+        when = 'depuis le début de la semaine '
+    elif s.analyse_type == 'day':
+        if s.analyse_day == str(1):
+            when = 'aujourd\'hui'
+        else:
+            when = 'sur les ' + s.analyse_day + ' derniers jours'
+
     if s.analyse_debug is True:
         print l.color.BLUE + 'Path : ' + l.color.END + s.analyse_path
         print l.color.BLUE + 'Room : ' + l.color.END + ', '.join(s.analyse_room)
@@ -145,7 +159,7 @@ def main(argv):
                     for data in rrf_data['all']:
                         indicatif = data[u'Indicatif'].encode('utf-8')
                         check = indicatif.split(' ')
-                        if len(check) == 3 or indicatif == 'GW-C4FM':
+                        if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF']:
                             try:
                                 all[indicatif][0] += l.convert_time_to_second(data[u'Durée'])
                                 if all[indicatif][0] > time_max:
@@ -157,7 +171,7 @@ def main(argv):
                     for data in rrf_data['porteuse']:
                         indicatif = data[u'Indicatif'].encode('utf-8')
                         check = indicatif.split(' ')
-                        if len(check) == 3 or indicatif == 'GW-C4FM':
+                        if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF']:
                             try:
                                 all[indicatif][2] += data[u'TX']
                             except:
@@ -291,6 +305,7 @@ def main(argv):
     flux.update({'Global': {'abstract': [abstract], 'log': log}})
 
     flux.update({'Stat': s.stat_list})
+    flux.update({'When': when})
 
     print json.dumps(flux, sort_keys=True)
 

@@ -23,7 +23,6 @@ analyse_format = 'TEXT'
 today = datetime.date.today().strftime("%Y-%m-%d")
 today = datetime.datetime.strptime(today, '%Y-%m-%d').date()
 
-
 stat_list = [
     {
         'Autres stats' : 'Aujourd\'hui',
