@@ -8,6 +8,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 73 & 88 de F4HWN Armel
 '''
 from __future__ import division
+from dateutil.relativedelta import *
 
 import settings as s
 import lib as l
@@ -46,6 +47,13 @@ def main(argv):
             s.analyse_year = arg
         elif opt in ('--month'):
             s.analyse_month = arg
+            if int(s.analyse_month) < 0:
+                today = datetime.date.today().strftime("%Y-%m-%d")
+                today = datetime.datetime.strptime(today, '%Y-%m-%d').date()
+                past = today + relativedelta(months=int(s.analyse_month))
+                past = str(past).split('-')
+                s.analyse_year = str(past[0])
+                s.analyse_month = str(past[1]) 
             s.analyse_type = 'month'
         elif opt in ('--week'):
             s.analyse_week = arg

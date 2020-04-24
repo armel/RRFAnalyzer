@@ -8,22 +8,40 @@
     var when = ''
 
     if(stat === null) {
-        stat = 30
+        stat = 'm'
     }
 
-    if (stat == 1) {
+    if (stat == 'd1') {
         when = 'aujourd\'hui'
     }
-    else if (stat == 7) {
+    else if (stat == 'w') {
         when = 'depuis le début de la semaine'
     }
-    else if (stat == 30) {
+    else if (stat == 'm') {
         when = 'depuis le début du mois'
     }
-    else if (stat == 90) {
+    else if (stat == 'm1') {
+        when = 'du mois N - 1'
+    }
+    else if (stat == 'm2') {
+        when = 'du mois N - 2'
+    }
+    else if (stat == 'm3') {
+        when = 'du mois N - 3'
+    }
+    else if (stat == 'm4') {
+        when = 'du mois N - 4'
+    }
+    else if (stat == 'm5') {
+        when = 'du mois N - 5'
+    }
+    else if (stat == 'm6') {
+        when = 'du mois N - 6'
+    }
+    else if (stat == 'd90') {
         when = 'sur les 90 derniers jours'
     }
-    else if (stat == 180) {
+    else if (stat == 'd180') {
         when = 'sur les 180 derniers jours'
     }
 
