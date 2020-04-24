@@ -2,7 +2,7 @@
 PATH_SCRIPT='/Users/armel/Dropbox/RRFAnalyzer/back'
 PATH_LOG='/Users/armel/Sites/RRFAnalyzer'
 
-python $PATH_SCRIPT/analyzer.py --room ALL --day 1 --format JSON > $PATH_LOG/analyzer_d1.json
+python $PATH_SCRIPT/analyzer.py --room ALL --day 1 --format JSON > $PATH_LOG/analyzer_d.json
 python $PATH_SCRIPT/analyzer.py --room ALL --week 0 --format JSON > $PATH_LOG/analyzer_w.json
 python $PATH_SCRIPT/analyzer.py --room ALL --format JSON > $PATH_LOG/analyzer_m.json
 python $PATH_SCRIPT/analyzer.py --room ALL --month -1 --format JSON > $PATH_LOG/analyzer_m1.json
