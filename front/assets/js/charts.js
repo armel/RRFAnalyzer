@@ -56,7 +56,7 @@
 
                 containerSelector = '.abstract-' + r.toLowerCase();
                 containerTitle = '<div id=' + r + ' class="icon"><i class="icofont-info-circle"></i></div> Synthèse ' + where;
-                containerLegend = 'Ce tableau présente la synthèse de l\'activité ' + where + ' : émission cumulée, nombre total de links actifs, de passages en émission et de déclenchements intempestifs. ';
+                containerLegend = 'Ce tableau présente la synthèse de l\'activité ' + where + ' : émission cumulée, nombre total de links actifs, de passages en émission (et durée moyenne) et de déclenchements intempestifs. ';
 
                 tabulate(data[r]['abstract'], ['Emission cumulée', 'Links total', 'TX total', 'TX moyen', 'Intempestifs total'], containerSelector, containerTitle, containerLegend, width + margin.left + margin.right); // 4 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
@@ -78,7 +78,7 @@
 
             containerSelector = '.abstract-elsewhere';
             containerTitle = '<div class="icon"><i class="icofont-dashboard-web"></i></div> Synthèse globale et par salon ' + data['When']
-            containerLegend = 'Ce tableau présente la synthèse totale et par salon de l\'activité : émission cumulée, nombre total de links actifs, de passages en émission et de déclenchements intempestifs. ';
+            containerLegend = 'Ce tableau présente la synthèse totale et par salon de l\'activité : émission cumulée, nombre total de links actifs, de passages en émission (et durée moyenne) et de déclenchements intempestifs. ';
 
             tabulate_elsewhere(elsewhere, ['Salon', 'Emission cumulée', 'Links total', 'TX total', 'TX moyen', 'Intempestifs total'], containerSelector, containerTitle, containerLegend, width + margin.left + margin.right); // 4 columns table
             d3.select(containerSelector).append('span').text(containerLegend);
