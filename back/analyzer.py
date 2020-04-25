@@ -190,6 +190,7 @@ def main(argv):
             "Links total": 0, 
             "Emission cumulée": 0, 
             "TX total": 0, 
+            "TX moyen": 0,
             "Intempestifs total": 0
         }
 
@@ -204,6 +205,10 @@ def main(argv):
                 all[e][3] = -1
 
         abstract['Salon'] = r
+        if abstract['TX total'] != 0:
+            abstract['TX moyen'] = abstract['Emission cumulée'] / abstract['TX total']
+        else:
+            abstract['TX moyen'] = 0
         abstract['Emission cumulée'] = l.convert_second_to_time(abstract['Emission cumulée'])
 
         # Sort by order 
@@ -260,6 +265,7 @@ def main(argv):
         "Links total": 0, 
         "Emission cumulée": 0, 
         "TX total": 0, 
+        "TX moyen": 0,
         "Intempestifs total": 0
     }
 
@@ -276,6 +282,10 @@ def main(argv):
     abstract['Salon'] = 'Global'
 
     flux.update({'Counter': abstract['Emission cumulée']})
+    if abstract['TX total'] != 0:
+        abstract['TX moyen'] = abstract['Emission cumulée'] / abstract['TX total']
+    else:
+        abstract['TX moyen'] = 0
     abstract['Emission cumulée'] = l.convert_second_to_time(abstract['Emission cumulée'])
 
     # Sort by order 
