@@ -247,10 +247,19 @@ function tabulate_order(data, columns, selector, title, width) {
                 });
             })
             .text(function(d) {
-                if (d.column == 'TX total' || d.column == 'Intempestifs total') {
+                if (d.column == 'TX moyen') {
+                    if (is_float(d.value)) {
+                        return d.value.toFixed(2)
+                    } else if (d.value == -1) {
+                        return '∞';
+                    } else {
+                        return d.value + '.00'
+                    }                
+                } 
+                else if (d.column == 'TX total' || d.column == 'Intempestifs total') {
                     return number_format(d.value);
                 }
-                if (d.column == 'Ratio') {
+                else if (d.column == 'Ratio') {
                     if (is_float(d.value)) {
                         return d.value.toFixed(2)
                     } else if (d.value == -1) {

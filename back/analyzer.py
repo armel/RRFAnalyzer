@@ -166,7 +166,7 @@ def main(argv):
                                     time_max = all[indicatif][0]
                                 all[indicatif][1] += data[u'TX']
                             except:
-                                all[indicatif] = [l.convert_time_to_second(data[u'Durée']), data[u'TX'], 0, 0]
+                                all[indicatif] = [l.convert_time_to_second(data[u'Durée']), data[u'TX'], 0, 0, 0]
 
                     for data in rrf_data['porteuse']:
                         indicatif = data[u'Indicatif'].encode('utf-8')
@@ -175,7 +175,7 @@ def main(argv):
                             try:
                                 all[indicatif][2] += data[u'TX']
                             except:
-                                all[indicatif] = [0, 0, data[u'TX'], 0]
+                                all[indicatif] = [0, 0, data[u'TX'], 0, 0]
                 except:
                     pass 
 
@@ -203,6 +203,10 @@ def main(argv):
                 all[e][3] = all[e][0] / all[e][2]
             else:
                 all[e][3] = -1
+            if all[e][1] != 0:  # Prevent divide by zero...
+                all[e][4] = all[e][0] / all[e][1]
+            else:
+                all[e][4] = -1
 
         abstract['Salon'] = r
         if abstract['TX total'] != 0:
@@ -225,13 +229,16 @@ def main(argv):
         elif s.analyse_order == 'RATIO':
             tmp = sorted(all.items(), key=lambda x: x[1][3])
             tmp.reverse()
+        elif s.analyse_order == 'BAVARD':
+            tmp = sorted(all.items(), key=lambda x: x[1][4])
+            tmp.reverse()
 
         # Compute log
 
         log = []
         indice = 1
         for e in tmp:
-            log.append({'Pos': indice, 'Indicatif': e[0], 'Emission cumulée': l.convert_second_to_time(e[1][0], time_format), 'TX total': e[1][1], 'Intempestifs total': e[1][2], 'Ratio': e[1][3]})
+            log.append({'Pos': indice, 'Indicatif': e[0], 'Emission cumulée': l.convert_second_to_time(e[1][0], time_format), 'TX total': e[1][1], 'TX moyen': e[1][4], 'Intempestifs total': e[1][2], 'Ratio': e[1][3]})
             indice += 1
 
         # Prepare JSON
@@ -278,6 +285,10 @@ def main(argv):
             total[e][3] = total[e][0] / total[e][2]
         else:
             total[e][3] = -1
+        if total[e][1] != 0:  # Prevent divide by zero...
+            total[e][4] = total[e][0] / total[e][1]
+        else:
+            total[e][4] = -1
 
     abstract['Salon'] = 'Global'
 
@@ -302,13 +313,16 @@ def main(argv):
     elif s.analyse_order == 'RATIO':
         tmp = sorted(total.items(), key=lambda x: x[1][3])
         tmp.reverse()
+    elif s.analyse_order == 'BAVARD':
+        tmp = sorted(total.items(), key=lambda x: x[1][4])
+        tmp.reverse()
 
     # Compute log
 
     log = []
     indice = 1
     for e in tmp:
-        log.append({'Pos': indice, 'Indicatif': e[0], 'Emission cumulée': l.convert_second_to_time(e[1][0], time_format), 'TX total': e[1][1], 'Intempestifs total': e[1][2], 'Ratio': e[1][3]})
+        log.append({'Pos': indice, 'Indicatif': e[0], 'Emission cumulée': l.convert_second_to_time(e[1][0], time_format), 'TX total': e[1][1], 'TX moyen': e[1][4], 'Intempestifs total': e[1][2], 'Ratio': e[1][3]})
         indice += 1
 
 
