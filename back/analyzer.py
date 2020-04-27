@@ -263,7 +263,7 @@ def main(argv):
                 total[indicatif][2] += intempestifs
 
             else:
-                total[indicatif] = [emission, tx, intempestifs, 0]
+                total[indicatif] = [emission, tx, intempestifs, 0, 0]
 
     # Compute ratio and abstract
 
