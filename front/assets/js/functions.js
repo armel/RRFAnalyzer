@@ -104,7 +104,7 @@ function tabulate_elsewhere(data, columns, selector, title, legend, width) {
                 return number_format(d.value);
             }
             else if (d.column == 'TX moyen') {
-                return d.value.toFixed(2)+'s' 
+                return d.value.toFixed(2) + 's' 
             } 
             else if (d.column == 'Salon') {
                 return '<a href="#' + d.value + '">' + d.value + '</a>';
@@ -249,11 +249,11 @@ function tabulate_order(data, columns, selector, title, width) {
             .text(function(d) {
                 if (d.column == 'TX moyen') {
                     if (is_float(d.value)) {
-                        return d.value.toFixed(2)
+                        return d.value.toFixed(2) + 's'
                     } else if (d.value == -1) {
                         return '∞';
                     } else {
-                        return d.value + '.00'
+                        return d.value + '.00s'
                     }                
                 } 
                 else if (d.column == 'TX total' || d.column == 'Intempestifs total') {
