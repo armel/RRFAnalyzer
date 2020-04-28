@@ -84,11 +84,17 @@
             d3.select(containerSelector).append('span').text(containerLegend);
 
             containerSelector = '.tot-graph'
-            containerTitle = '<div class="icon"><i class="icofont-mic"></i></div> Emission cumulée'
+            containerTitle = '<div class="icon"><i class="icofont-wall-clock"></i></div> Emission cumulée'
             containerLegend = 'Ce compteur affiche la durée émission cumulée en heures et minutes.';
 
             emission(containerSelector, data['Counter'], containerTitle, width + margin.left + margin.right);
             d3.select(containerSelector).append('span').text(containerLegend);
+
+            containerSelector = '.search-graph'
+            containerTitle = '<div class="icon"><i class="icofont-search-stock"></i></div> Moteur de recherche'
+
+            d3.select(containerSelector).html('');
+            d3.select(containerSelector).append('h2').html(containerTitle);
 
             containerSelector = '.stat-table'
             containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> Autres statistiques'

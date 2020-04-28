@@ -8,11 +8,12 @@
 
 @font-face
 {
-  font-family: "IcoFont";
-  font-weight: normal;
-  font-style: "Regular";
-  src: url("../fonts/icofont.woff2") format("woff2"),
-  url("../fonts/icofont.woff") format("woff");
+ 
+font-family: "IcoFont";
+font-weight: normal;
+font-style: "Regular";
+src: url("../fonts/icofont.woff2") format("woff2"),
+url("../fonts/icofont.woff") format("woff");
 }
 
 [class^="icofont-"], [class*=" icofont-"]
@@ -32,19 +33,9 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.icofont-bug:before
+.icofont-spreadsheet:before
 {
-  content: "\eec7";
-}
-
-.icofont-badge:before
-{
-  content: "\eeaa";
-}
-
-.icofont-dashboard-web:before
-{
-  content: "\eef9";
+  content: "\effb";
 }
 
 .icofont-info-circle:before
@@ -52,9 +43,9 @@
   content: "\ef4e";
 }
 
-.icofont-mic-mute:before
+.icofont-dashboard-web:before
 {
-  content: "\ef94";
+  content: "\eef9";
 }
 
 .icofont-mic:before
@@ -62,9 +53,9 @@
   content: "\ef95";
 }
 
-.icofont-spreadsheet:before
+.icofont-search-stock:before
 {
-  content: "\effb";
+  content: "\ed19";
 }
 
 .icofont-wall-clock:before
@@ -72,39 +63,9 @@
   content: "\f022";
 }
 
-.icofont-headphone-alt-1:before
+.icofont-calendar:before
 {
-  content: "\ea33";
-}
-
-.icofont-headphone-alt-3:before
-{
-  content: "\ea35";
-}
-
-.icofont-paint:before
-{
-  content: "\efb3";
-}
-
-.icofont-bomb:before
-{
-  content: "\eebf";
-}
-
-.icofont-not-allowed:before
-{
-  content: "\efa9";
-}
-
-.icofont-halloween-pumpkin:before
-{
-  content: "\e80f";
-}
-
-.icofont-police:before
-{
-  content: "\ebd4";
+  content: "\eecd";
 }
 
 .icofont-xs
