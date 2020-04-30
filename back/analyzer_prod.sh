@@ -15,3 +15,4 @@ python $PATH_SCRIPT/analyzer.py --room ALL --month -7 --format JSON > $PATH_LOG/
 python $PATH_SCRIPT/analyzer.py --room ALL --month -8 --format JSON > $PATH_LOG/analyzer_m8.json
 python $PATH_SCRIPT/analyzer.py --room ALL --day 90 --format JSON > /$PATH_LOG/analyzer_d90.json
 python $PATH_SCRIPT/analyzer.py --room ALL --day 180 --format JSON > $PATH_LOG/analyzer_d180.json
+python $PATH_SCRIPT/analyzer.py --room ALL --day 240 --format JSON > $PATH_LOG/analyzer_d240.json
