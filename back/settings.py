@@ -35,7 +35,7 @@ stat_list = [
     }
 ]
 
-for m in xrange(1, 7):
+for m in xrange(1, 9):
     past = today + relativedelta(months=-(m))
     past = str(past).split('-')
     stat_list.append({'Autres stats' : 'Mois ' + past[1] + '/' + past[0]})

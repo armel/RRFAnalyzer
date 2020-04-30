@@ -21,6 +21,10 @@
     var bodyStyles = document.body.style;
     bodyStyles.setProperty('--color-theme', colorSelected);
 
+    // No cach
+
+    const noCache = new Date().getTime();
+
     // Set the dimensions of the canvas
 
     const columnWidth = document.querySelector('.columns :first-child').clientWidth;
