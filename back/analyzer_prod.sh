@@ -11,5 +11,7 @@ python $PATH_SCRIPT/analyzer.py --room ALL --month -3 --format JSON > $PATH_LOG/
 python $PATH_SCRIPT/analyzer.py --room ALL --month -4 --format JSON > $PATH_LOG/analyzer_m4.json
 python $PATH_SCRIPT/analyzer.py --room ALL --month -5 --format JSON > $PATH_LOG/analyzer_m5.json
 python $PATH_SCRIPT/analyzer.py --room ALL --month -6 --format JSON > $PATH_LOG/analyzer_m6.json
+python $PATH_SCRIPT/analyzer.py --room ALL --month -7 --format JSON > $PATH_LOG/analyzer_m7.json
+python $PATH_SCRIPT/analyzer.py --room ALL --month -8 --format JSON > $PATH_LOG/analyzer_m8.json
 python $PATH_SCRIPT/analyzer.py --room ALL --day 90 --format JSON > /$PATH_LOG/analyzer_d90.json
 python $PATH_SCRIPT/analyzer.py --room ALL --day 180 --format JSON > $PATH_LOG/analyzer_d180.json
