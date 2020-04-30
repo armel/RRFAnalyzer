@@ -46,5 +46,8 @@ stat_list += [
     },
     {
         'Autres stats' : 'Sur les 180 derniers jours',
+    },
+    {
+        'Autres stats' : 'Sur les 240 derniers jours',
     }
 ]
