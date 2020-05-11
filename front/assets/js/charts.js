@@ -81,7 +81,7 @@
             });
 
             containerSelector = '.abstract-elsewhere';
-            containerTitle = '<div class="icon"><i class="icofont-dashboard-web"></i></div> Synthèse globale et par salon ' + data['When'] + ' (<a href="http://rrf.f5nlg.ovh:8080/RRFTracker/">accès au RRFTracker</a>)'
+            containerTitle = '<div class="icon"><i class="icofont-dashboard-web"></i></div> Synthèse globale et par salon ' + data['When'] + ' (<a href="http://rrf.f5nlg.ovh:8080/RRFTracker/RRF-today/">accès au RRFTracker</a>)'
             containerLegend = 'Ce tableau présente la synthèse totale et par salon de l\'activité : émission cumulée, nombre total de links actifs, de passages en émission (et durée moyenne) et de déclenchements intempestifs. ';
 
             tabulate_elsewhere(elsewhere, ['Salon', 'Emission cumulée', 'Links total', 'TX total', 'TX moyen', 'Intempestifs total'], containerSelector, containerTitle, containerLegend, width + margin.left + margin.right); // 4 columns table
