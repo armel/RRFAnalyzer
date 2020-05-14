@@ -39,7 +39,7 @@
             height = Math.max(width / 3, 250) - margin.top - margin.bottom;
 
 
-    d3.json('analyzer_' + stat + '.json', function(error, data) {
+    d3.json('RRFAnalyzer_' + stat + '.json', function(error, data) {
         if (error) {
             return console.warn('Erreur', error);
         } else {

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 '''
@@ -7,7 +7,7 @@ Learn more about RRF on https://f5nlg.wordpress.com
 Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 73 & 88 de F4HWN Armel
 '''
-from __future__ import division
+
 from dateutil.relativedelta import *
 
 import settings as s
@@ -37,7 +37,7 @@ def main(argv):
             s.analyse_path = arg
         elif opt in ('--debug'):
             if arg not in ['True', 'False']:
-                print 'Unknown debug mode (choose between \'True\' and \'False\')'
+                print('Unknown debug mode (choose between \'True\' and \'False\')')
                 sys.exit()
             if arg == 'True':
                 s.analyse_debug = True
@@ -65,7 +65,7 @@ def main(argv):
             s.analyse_type = 'day'
         elif opt in ('--room'):
             if arg not in ['ALL', 'RRF', 'TECHNIQUE', 'BAVARDAGE', 'LOCAL', 'INTERNATIONAL', 'FON']:
-                print 'Unknown room name (choose between \'ALL\', \'RRF\', \'TECHNIQUE\', \'BAVARDAGE\', \'LOCAL\', \'INTERNATIONAL\' and \'FON\')'
+                print('Unknown room name (choose between \'ALL\', \'RRF\', \'TECHNIQUE\', \'BAVARDAGE\', \'LOCAL\', \'INTERNATIONAL\' and \'FON\')')
                 sys.exit()
             if arg == 'ALL':
                 s.analyse_room = ['RRF', 'TECHNIQUE', 'BAVARDAGE', 'LOCAL', 'INTERNATIONAL']
@@ -73,12 +73,12 @@ def main(argv):
                 s.analyse_room = [arg]
         elif opt in ('--order'):
             if arg not in ['BF', 'TX', 'INTEMPESTIF', 'RATIO']:
-                print 'Unknown order type (choose between \'BF\', \'TX\', \'INTEMPESTIF\' and \'RATIO\')'
+                print('Unknown order type (choose between \'BF\', \'TX\', \'INTEMPESTIF\' and \'RATIO\')')
                 sys.exit()
             s.analyse_order = arg
         elif opt in ('--format'):
             if arg not in ['TEXT', 'JSON']:
-                print 'Unknown format type (choose between \'TEXT\' and \'JSON\')'
+                print('Unknown format type (choose between \'TEXT\' and \'JSON\')')
                 sys.exit()
             s.analyse_format = arg
 
@@ -99,26 +99,26 @@ def main(argv):
             when = 'sur les ' + s.analyse_day + ' derniers jours'
 
     if s.analyse_debug is True:
-        print l.color.BLUE + 'Path : ' + l.color.END + s.analyse_path
-        print l.color.BLUE + 'Room : ' + l.color.END + ', '.join(s.analyse_room)
-        print l.color.BLUE + 'Search type : ' + l.color.END + s.analyse_type
-        print l.color.BLUE + 'Search year : ' + l.color.END + s.analyse_year
+        print(l.color.BLUE + 'Path : ' + l.color.END + s.analyse_path)
+        print(l.color.BLUE + 'Room : ' + l.color.END + ', '.join(s.analyse_room))
+        print(l.color.BLUE + 'Search type : ' + l.color.END + s.analyse_type)
+        print(l.color.BLUE + 'Search year : ' + l.color.END + s.analyse_year)
         if s.analyse_type == 'month':
-            print l.color.BLUE + 'Search month : ' + l.color.END + s.analyse_month
+            print(l.color.BLUE + 'Search month : ' + l.color.END + s.analyse_month)
         elif s.analyse_type == 'week':
-            print l.color.BLUE + 'Search week : ' + l.color.END + s.analyse_week
+            print(l.color.BLUE + 'Search week : ' + l.color.END + s.analyse_week)
         elif s.analyse_type == 'day':
-            print l.color.BLUE + 'Search day : ' + l.color.END + s.analyse_day
-        print l.color.BLUE + 'Search order : ' + l.color.END + s.analyse_order
-        print l.color.BLUE + 'Search format : ' + l.color.END + s.analyse_format
-        print '==========='
+            print(l.color.BLUE + 'Search day : ' + l.color.END + s.analyse_day)
+        print(l.color.BLUE + 'Search order : ' + l.color.END + s.analyse_order)
+        print(l.color.BLUE + 'Search format : ' + l.color.END + s.analyse_format)
+        print('===========')
 
     # Loop
 
     flux = {}
-    time_max = 0
 
     for r in s.analyse_room:
+        time_max = 0
         file = []
         all = {}
 
@@ -147,7 +147,7 @@ def main(argv):
 
             # Debug trace
             if s.analyse_debug is True:
-                print f
+                print(f)
             
             if os.path.isfile(f):
                 rrf_json = open(f)
@@ -157,31 +157,32 @@ def main(argv):
                     rrf_data = json.loads(rrf_data)
 
                     for data in rrf_data['all']:
-                        indicatif = data[u'Indicatif'].encode('utf-8')
+                        indicatif = data['Indicatif']
                         check = indicatif.split(' ')
                         if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF']:
                             try:
-                                all[indicatif][0] += l.convert_time_to_second(data[u'Durée'])
+                                all[indicatif][0] += l.convert_time_to_second(data['Durée'])
                                 if all[indicatif][0] > time_max:
                                     time_max = all[indicatif][0]
-                                all[indicatif][1] += data[u'TX']
+                                all[indicatif][1] += data['TX']
                             except:
-                                all[indicatif] = [l.convert_time_to_second(data[u'Durée']), data[u'TX'], 0, 0, 0]
+                                all[indicatif] = [l.convert_time_to_second(data['Durée']), data['TX'], 0, 0, 0]
 
                     for data in rrf_data['porteuse']:
-                        indicatif = data[u'Indicatif'].encode('utf-8')
+                        indicatif = data['Indicatif']
                         check = indicatif.split(' ')
                         if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF']:
                             try:
-                                all[indicatif][2] += data[u'TX']
+                                all[indicatif][2] += data['TX']
                             except:
-                                all[indicatif] = [0, 0, data[u'TX'], 0, 0]
+                                all[indicatif] = [0, 0, data['TX'], 0, 0]
                 except:
                     pass 
 
         # Clean artefect
 
         time_format = '{:0>' + str(len(str(time_max // 3600))) + 'd}'
+        time_format = '{:0>3d}'
 
         # Compute ratio and abstract
 
@@ -218,19 +219,19 @@ def main(argv):
         # Sort by order 
 
         if s.analyse_order == 'BF':
-            tmp = sorted(all.items(), key=lambda x: x[1][0])
+            tmp = sorted(list(all.items()), key=lambda x: x[1][0])
             tmp.reverse()
         elif s.analyse_order == 'TX':
-            tmp = sorted(all.items(), key=lambda x: x[1][1])
+            tmp = sorted(list(all.items()), key=lambda x: x[1][1])
             tmp.reverse()
         elif s.analyse_order == 'INTEMPESTIF':
-            tmp = sorted(all.items(), key=lambda x: x[1][2])
+            tmp = sorted(list(all.items()), key=lambda x: x[1][2])
             tmp.reverse()
         elif s.analyse_order == 'RATIO':
-            tmp = sorted(all.items(), key=lambda x: x[1][3])
+            tmp = sorted(list(all.items()), key=lambda x: x[1][3])
             tmp.reverse()
         elif s.analyse_order == 'BAVARD':
-            tmp = sorted(all.items(), key=lambda x: x[1][4])
+            tmp = sorted(list(all.items()), key=lambda x: x[1][4])
             tmp.reverse()
 
         # Compute log
@@ -302,19 +303,19 @@ def main(argv):
     # Sort by order 
 
     if s.analyse_order == 'BF':
-        tmp = sorted(total.items(), key=lambda x: x[1][0])
+        tmp = sorted(list(total.items()), key=lambda x: x[1][0])
         tmp.reverse()
     elif s.analyse_order == 'TX':
-        tmp = sorted(total.items(), key=lambda x: x[1][1])
+        tmp = sorted(list(total.items()), key=lambda x: x[1][1])
         tmp.reverse()
     elif s.analyse_order == 'INTEMPESTIF':
-        tmp = sorted(total.items(), key=lambda x: x[1][2])
+        tmp = sorted(list(total.items()), key=lambda x: x[1][2])
         tmp.reverse()
     elif s.analyse_order == 'RATIO':
-        tmp = sorted(total.items(), key=lambda x: x[1][3])
+        tmp = sorted(list(total.items()), key=lambda x: x[1][3])
         tmp.reverse()
     elif s.analyse_order == 'BAVARD':
-        tmp = sorted(total.items(), key=lambda x: x[1][4])
+        tmp = sorted(list(total.items()), key=lambda x: x[1][4])
         tmp.reverse()
 
     # Compute log
@@ -331,7 +332,7 @@ def main(argv):
     flux.update({'Stat': s.stat_list})
     flux.update({'When': when})
 
-    print json.dumps(flux, sort_keys=True)
+    print(json.dumps(flux, sort_keys=True))
 
 if __name__ == '__main__':
     try:

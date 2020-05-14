@@ -256,6 +256,17 @@ function tabulate_order(data, columns, selector, title, width) {
                         return d.value + '.00s'
                     }                
                 } 
+                else if (d.column == 'Emission cumulée') {
+                    d.value = d.value.replace(/^0+/, '')
+                    if (d.value[0] == 'h') {
+                        d.value = d.value.replace(/^h +/, '')
+                        d.value = d.value.replace(/^0+/, '')
+                        if (d.value[0] == 'm') {
+                            d.value = d.value.replace(/^m +/, '')
+                        }
+                    }
+                    return d.value            
+                } 
                 else if (d.column == 'TX total' || d.column == 'Intempestifs total') {
                     return number_format(d.value);
                 }

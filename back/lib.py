@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 '''
@@ -23,22 +23,22 @@ class color:
 
 # Usage
 def usage():
-    print 'Usage: RRFTracker.py [options ...]'
-    print
-    print '--help               this help'
-    print
-    print 'Search settings:'
-    print '  --debug        debug mode (default=False, choose between [True, False]) '
-    print '  --path         set path to RRF files (default=/var/www/RRFTracker/)'
-    print '  --room         analyse room (default=RRF, choose between [ALL, RRF, TECHNIQUE, BAVARDAGE, LOCAL, INTERNATIONAL,FON]) '
-    print '  --year         analyse on year (default=current year)'
-    print '  --month        analyse on month (default=current month)'
-    print '  --week         analyse on week'
-    print '  --day          analyse on day'
-    print '  --order        analyse room (default=BF, choose between [BF, TX, INTEMPESTIF, RATIO]) '
-    print '  --format       analyse room (default=TEXT, choose between [TEXT, JSON]) '
-    print
-    print '88 & 73 from F4HWN Armel'
+    print('Usage: RRFAnalyser.py [options ...]')
+    print()
+    print('--help               this help')
+    print()
+    print('Search settings:')
+    print('  --debug        debug mode (default=False, choose between [True, False]) ')
+    print('  --path         set path to RRF files (default=/var/www/RRFTracker/)')
+    print('  --room         analyse room (default=RRF, choose between [ALL, RRF, TECHNIQUE, BAVARDAGE, LOCAL, INTERNATIONAL,FON]) ')
+    print('  --year         analyse on year (default=current year)')
+    print('  --month        analyse on month (default=current month)')
+    print('  --week         analyse on week')
+    print('  --day          analyse on day')
+    print('  --order        analyse room (default=BF, choose between [BF, TX, INTEMPESTIF, RATIO]) ')
+    print('  --format       analyse room (default=TEXT, choose between [TEXT, JSON]) ')
+    print()
+    print('88 & 73 from F4HWN Armel')
 
 # Convert second to time
 def convert_second_to_time(time, time_format='{:0>2d}'):
@@ -68,4 +68,4 @@ def convert_time_to_second(time):
     else:
         format = [60, 1]
 
-    return sum([a * b for a, b in zip(format, map(int, time.split(':')))])
+    return sum([a * b for a, b in zip(format, list(map(int, time.split(':'))))])

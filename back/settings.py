@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 '''
@@ -35,7 +35,7 @@ stat_list = [
     }
 ]
 
-for m in xrange(1, 9):
+for m in range(1, 9):
     past = today + relativedelta(months=-(m))
     past = str(past).split('-')
     stat_list.append({'Autres stats' : 'Mois ' + past[1] + '/' + past[0]})
