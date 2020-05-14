@@ -181,7 +181,7 @@ def main(argv):
 
         # Clean artefect
 
-        time_format = '{:0>' + str(len(str(time_max // 3600))) + 'd}'
+        #time_format = '{:0>' + str(len(str(time_max // 3600))) + 'd}'
         time_format = '{:0>3d}'
 
         # Compute ratio and abstract
