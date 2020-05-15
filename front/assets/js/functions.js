@@ -263,6 +263,9 @@ function tabulate_order(data, columns, selector, title, width) {
                         d.value = d.value.replace(/^0+/, '')
                         if (d.value[0] == 'm') {
                             d.value = d.value.replace(/^m +/, '')
+                            if (d.value == '00s') {
+                                d.value = '-'
+                            }
                         }
                     }
                     return d.value            

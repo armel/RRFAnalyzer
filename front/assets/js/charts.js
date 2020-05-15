@@ -48,6 +48,9 @@
             var containerSelector;
             var containerTitle;
             var containerLegend;
+            var containerUpdate;
+
+            containerUpdate = ' Dernière mise à jour à <b>' + data['Update'] + '</b>.';
 
             room.forEach(function(r) {
                 if (r == 'Global') {
@@ -61,9 +64,10 @@
                 containerSelector = '.abstract-' + r.toLowerCase();
                 containerTitle = '<div id=' + r + ' class="icon"><i class="icofont-info-circle"></i></div> Synthèse ' + where;
                 containerLegend = 'Ce tableau présente la synthèse de l\'activité ' + where + ' : émission cumulée, nombre total de links actifs, de passages en émission (et durée moyenne) et de déclenchements intempestifs. ';
+                containerLegend += containerUpdate;
 
                 tabulate(data[r]['abstract'], ['Emission cumulée', 'Links total', 'TX total', 'TX moyen', 'Intempestifs total'], containerSelector, containerTitle, containerLegend, width + margin.left + margin.right); // 4 columns table
-                d3.select(containerSelector).append('span').text(containerLegend);
+                d3.select(containerSelector).append('span').html(containerLegend);
 
                 if (where == 'globale') {
                     where_patch = 'global'
@@ -75,24 +79,27 @@
                 containerSelector = '.log-' + r.toLowerCase();
                 containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> Log ' + where_patch;
                 containerLegend = 'Ce tableau présente l\'activité ' + where + ' par link : émission cumulée, nombre total de passages en émission, de déclenchements intempestifs et ratio. Le ratio est calculé en divisant le nombre de secondes en émission par le nombre de déclenchements intempestifs. Plus ce ratio est faible, plus le link est perturbant...';
+                containerLegend += containerUpdate;
 
                 tabulate_order(data[r]['log'], ['Pos', 'Indicatif', 'Emission cumulée', 'TX total', 'TX moyen', 'Intempestifs total', 'Ratio'], containerSelector, containerTitle, width + margin.left + margin.right); // 4 columns table
-                d3.select(containerSelector).append('span').text(containerLegend);
+                d3.select(containerSelector).append('span').html(containerLegend);
             });
 
             containerSelector = '.abstract-elsewhere';
             containerTitle = '<div class="icon"><i class="icofont-dashboard-web"></i></div> Synthèse globale et par salon ' + data['When'] + ' (<a href="http://rrf.f5nlg.ovh:8080/RRFTracker/RRF-today/">accès au RRFTracker</a>)'
             containerLegend = 'Ce tableau présente la synthèse totale et par salon de l\'activité : émission cumulée, nombre total de links actifs, de passages en émission (et durée moyenne) et de déclenchements intempestifs. ';
+            containerLegend += containerUpdate;
 
             tabulate_elsewhere(elsewhere, ['Salon', 'Emission cumulée', 'Links total', 'TX total', 'TX moyen', 'Intempestifs total'], containerSelector, containerTitle, containerLegend, width + margin.left + margin.right); // 4 columns table
-            d3.select(containerSelector).append('span').text(containerLegend);
+            d3.select(containerSelector).append('span').html(containerLegend);
 
             containerSelector = '.tot-graph'
             containerTitle = '<div class="icon"><i class="icofont-wall-clock"></i></div> Emission cumulée'
-            containerLegend = 'Ce compteur affiche la durée émission cumulée en heures et minutes.';
+            containerLegend = 'Ce compteur affiche la durée d\'émission cumulée en heures et minutes.';
+            containerLegend += containerUpdate;
 
             emission(containerSelector, data['Counter'], containerTitle, width + margin.left + margin.right);
-            d3.select(containerSelector).append('span').text(containerLegend);
+            d3.select(containerSelector).append('span').html(containerLegend);
 
             containerSelector = '.search-graph'
             containerTitle = '<div class="icon"><i class="icofont-search-stock"></i></div> Moteur de recherche'

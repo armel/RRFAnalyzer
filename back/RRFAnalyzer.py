@@ -332,6 +332,9 @@ def main(argv):
     flux.update({'Stat': s.stat_list})
     flux.update({'When': when})
 
+    now = datetime.datetime.now()
+    flux.update({'Update': now.strftime('%H:%M:%S')})
+
     print(json.dumps(flux, sort_keys=True))
 
 if __name__ == '__main__':
