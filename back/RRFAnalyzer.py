@@ -333,7 +333,7 @@ def main(argv):
     flux.update({'When': when})
 
     now = datetime.datetime.now()
-    flux.update({'Update': now.strftime('%Hh %M')})
+    flux.update({'Update': now.strftime('%H:%M, le %d/%m/%Y')})
 
     print(json.dumps(flux, sort_keys=True))
 
