@@ -129,7 +129,7 @@ function tabulate_stat(data, columns, selector, title, legend, width) {
     var tbody = table.append('tbody');
 
     var url = location.protocol + '//' + location.host + location.pathname
-    var value = ['d', 'w', 'm', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'd90', 'd180', 'd240'];
+    var value = ['d', 'w', 'm', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'd90', 'd180', 'd240'];
     var indice = 0
 
     // Append the header row
