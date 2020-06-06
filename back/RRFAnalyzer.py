@@ -159,7 +159,7 @@ def main(argv):
                     for data in rrf_data['all']:
                         indicatif = data['Indicatif']
                         check = indicatif.split(' ')
-                        if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF']:
+                        if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF', 'GW-ALLSTAR-40020']:
                             try:
                                 all[indicatif][0] += l.convert_time_to_second(data['Durée'])
                                 if all[indicatif][0] > time_max:
@@ -171,7 +171,7 @@ def main(argv):
                     for data in rrf_data['porteuse']:
                         indicatif = data['Indicatif']
                         check = indicatif.split(' ')
-                        if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF']:
+                        if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF', 'GW-ALLSTAR-40020']:
                             try:
                                 all[indicatif][2] += data['TX']
                             except:
