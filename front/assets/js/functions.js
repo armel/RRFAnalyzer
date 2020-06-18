@@ -1,12 +1,24 @@
+//
+// Test float
+//
+
 function is_float(n) {
     return Number(n) === n && n % 1 !== 0;
 }
+
+//
+// Format number
+//
 
 function number_format(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
 
-function tabulate(data, columns, selector, title, legend, width) {
+//
+// Total table 
+//
+
+function tabulate_total(data, columns, selector, title, legend, width) {
     d3.select(selector).html('');
     d3.select(selector).append('h2').html(title);
 
@@ -50,61 +62,7 @@ function tabulate(data, columns, selector, title, legend, width) {
                 return number_format(d.value);
             }
             else if (d.column == 'TX moyen') {
-                return d.value.toFixed(2)+'s' 
-            } 
-            else {
-                return d.value;
-            }
-        });
-
-    return table;
-}
-
-function tabulate_elsewhere(data, columns, selector, title, legend, width) {
-    d3.select(selector).html('');
-    d3.select(selector).append('h2').html(title);
-
-    var table = d3.select(selector)
-                .append('table')
-                .attr('width', width + 'px');
-
-    var thead = table.append('thead');
-    var tbody = table.append('tbody');
-
-    // Append the header row
-    thead.append('tr')
-        .selectAll('th')
-        .data(columns)
-        .enter()
-        .append('th')
-        .text(function(column) {
-            return column;
-        });
-
-    // Create a row for each object in the data
-    var rows = tbody.selectAll('tr')
-        .data(data)
-        .enter()
-        .append('tr');
-
-    // Create a cell in each row for each column
-    var cells = rows.selectAll('td')
-        .data(function(row) {
-            return columns.map(function(column) {
-                return {
-                    column: column,
-                    value: row[column]
-                };
-            });
-        })
-        .enter()
-        .append('td')
-        .html(function(d, i) {
-            if (d.column == 'TX total' || d.column == 'Intempestifs total') {
-                return number_format(d.value);
-            }
-            else if (d.column == 'TX moyen') {
-                return d.value.toFixed(2) + 's' 
+                return d.value.toFixed(2) + 's';
             } 
             else if (d.column == 'Salon') {
                 return '<a href="#' + d.value + '">' + d.value + '</a>';
@@ -117,7 +75,11 @@ function tabulate_elsewhere(data, columns, selector, title, legend, width) {
     return table;
 }
 
-function tabulate_stat(data, columns, selector, title, legend, width) {
+//
+// Header table (by room)
+//
+
+function tabulate_header(data, columns, selector, title, legend, width) {
     d3.select(selector).html('');
     d3.select(selector).append('h2').html(title);
 
@@ -127,10 +89,6 @@ function tabulate_stat(data, columns, selector, title, legend, width) {
 
     var thead = table.append('thead');
     var tbody = table.append('tbody');
-
-    var url = location.protocol + '//' + location.host + location.pathname
-    var value = ['d', 'w', 'm', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'd90', 'd180', 'd240'];
-    var indice = 0
 
     // Append the header row
     thead.append('tr')
@@ -161,15 +119,25 @@ function tabulate_stat(data, columns, selector, title, legend, width) {
         .enter()
         .append('td')
         .html(function(d, i) {
-            arg = value[indice]
-            indice += 1
-            return '<a href="' + url + '?stat=' + arg + '">' + d.value + '</a>'; 
+            if (d.column == 'TX total' || d.column == 'Intempestifs total') {
+                return number_format(d.value);
+            }
+            else if (d.column == 'TX moyen') {
+                return d.value.toFixed(2)+'s';
+            } 
+            else {
+                return d.value;
+            }
         });
 
     return table;
 }
 
-function tabulate_order(data, columns, selector, title, width) {
+//
+// Log table (sortable)
+//
+
+function tabulate_log(data, columns, selector, title, width) {
     d3.select(selector).html('');
     d3.select(selector).append('h2').html(title);
 
@@ -209,12 +177,12 @@ function tabulate_order(data, columns, selector, title, width) {
         }
 
         data.sort(function(x, y) {
-            return sortInfo.order(x[sortKey], y[sortKey])
+            return sortInfo.order(x[sortKey], y[sortKey]);
         });
 
         data_copy = data.slice();
 
-        var indice = 1
+        var indice = 1;
         data_copy.forEach(function(d) {
             d.Pos = indice;
             indice++;
@@ -227,13 +195,14 @@ function tabulate_order(data, columns, selector, title, width) {
             .append('tr')
             .selectAll('td')
             .data(function(d) {
-                return d3.entries(d)
+                return d3.entries(d);
             })
             .enter()
             .append('td')
             .text(function(d) {
                 return d.value;
             });
+
         tbody
             .selectAll('tr')
             .data(data_copy)
@@ -249,37 +218,37 @@ function tabulate_order(data, columns, selector, title, width) {
             .text(function(d) {
                 if (d.column == 'TX moyen') {
                     if (is_float(d.value)) {
-                        return d.value.toFixed(2) + 's'
+                        return d.value.toFixed(2) + 's';
                     } else if (d.value == -1) {
                         return '∞';
                     } else {
-                        return d.value + '.00s'
+                        return d.value + '.00s';
                     }                
                 } 
                 else if (d.column == 'Emission cumulée') {
-                    d.value = d.value.replace(/^0+/, '')
+                    d.value = d.value.replace(/^0+/, '');
                     if (d.value[0] == 'h') {
-                        d.value = d.value.replace(/^h +/, '')
-                        d.value = d.value.replace(/^0+/, '')
+                        d.value = d.value.replace(/^h +/, '');
+                        d.value = d.value.replace(/^0+/, '');
                         if (d.value[0] == 'm') {
-                            d.value = d.value.replace(/^m +/, '')
+                            d.value = d.value.replace(/^m +/, '');
                             if (d.value == '00s') {
-                                d.value = '-'
+                                d.value = '-';
                             }
                         }
                     }
-                    return d.value            
+                    return d.value;
                 } 
                 else if (d.column == 'TX total' || d.column == 'Intempestifs total') {
                     return number_format(d.value);
                 }
                 else if (d.column == 'Ratio') {
                     if (is_float(d.value)) {
-                        return d.value.toFixed(2)
+                        return d.value.toFixed(2);
                     } else if (d.value == -1) {
                         return '∞';
                     } else {
-                        return d.value + '.00'
+                        return d.value + '.00';
                     }
                 } else {
                     return d.value;
@@ -287,6 +256,66 @@ function tabulate_order(data, columns, selector, title, width) {
             });
     }
 }
+
+//
+// Stat table
+//
+
+function tabulate_stat(data, columns, selector, title, legend, width) {
+    d3.select(selector).html('');
+    d3.select(selector).append('h2').html(title);
+
+    var table = d3.select(selector)
+                .append('table')
+                .attr('width', width + 'px');
+
+    var thead = table.append('thead');
+    var tbody = table.append('tbody');
+
+    var url = location.protocol + '//' + location.host + location.pathname;
+    var value = ['d', 'w', 'm', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'd90', 'd180', 'd240'];
+    var indice = 0;
+
+    // Append the header row
+    thead.append('tr')
+        .selectAll('th')
+        .data(columns)
+        .enter()
+        .append('th')
+        .text(function(column) {
+            return column;
+        });
+
+    // Create a row for each object in the data
+    var rows = tbody.selectAll('tr')
+        .data(data)
+        .enter()
+        .append('tr');
+
+    // Create a cell in each row for each column
+    var cells = rows.selectAll('td')
+        .data(function(row) {
+            return columns.map(function(column) {
+                return {
+                    column: column,
+                    value: row[column]
+                };
+            });
+        })
+        .enter()
+        .append('td')
+        .html(function(d, i) {
+            arg = value[indice];
+            indice += 1;
+            return '<a href="' + url + '?stat=' + arg + '">' + d.value + '</a>'; 
+        });
+
+    return table;
+}
+
+//
+// Cumulative emission
+//
 
 function emission(selector, time, title, width) {
     d3.select(selector).html('');
@@ -298,12 +327,12 @@ function emission(selector, time, title, width) {
         .append('div')
         .attr('class', 'center-clock')
         .append('div')
-        .attr('class', 'clock')
+        .attr('class', 'clock');
 
     d3.select(selector)
         .append('table')
         .attr('width', width + 'px')
-        .attr('class', 'transmit')
+        .attr('class', 'transmit');
 
         clock = $('.clock').FlipClock(time, {
             clockFace: 'HourlyCounter',
@@ -313,6 +342,10 @@ function emission(selector, time, title, width) {
 
     clock.stop(function() {});
 }
+
+//
+// Change color
+//
 
 function color(colorSelected) {
 
@@ -348,6 +381,10 @@ function color(colorSelected) {
     window.location.reload(false); 
     return 0;
 }
+
+//
+// Highlight search
+//
 
 $(function() {
 

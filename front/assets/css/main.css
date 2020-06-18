@@ -278,7 +278,7 @@ a:hover {
     }
 
     .columns > *:last-child table {
-        width: 90%;
+        width: 98%;
         margin-right:auto;
         margin-left:0px
     }
@@ -341,6 +341,7 @@ div.panel .panel-body p:last-child {
 mark {
   padding: 0;
   background: var(--color-theme);
+  color: white;
   font: 20px Arial, Helvetica, sans-serif;
   letter-spacing: .2rem;
 }
