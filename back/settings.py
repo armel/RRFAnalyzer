@@ -35,19 +35,25 @@ stat_list = [
     }
 ]
 
-for m in range(1, 10):
+for m in range(1, 11):
     past = today + relativedelta(months=-(m))
     past = str(past).split('-')
     stat_list.append({'Autres stats' : 'Mois ' + past[1] + '/' + past[0]})
 
 stat_list += [
     {
-        'Autres stats' : 'Sur les 90 derniers jours',
+        'Autres stats' : 'Sur les 60 derniers jours',
+    },
+    {
+        'Autres stats' : 'Sur les 120 derniers jours',
     },
     {
         'Autres stats' : 'Sur les 180 derniers jours',
     },
     {
         'Autres stats' : 'Sur les 240 derniers jours',
+    },
+    {
+        'Autres stats' : 'Sur les 300 derniers jours',
     }
 ]
