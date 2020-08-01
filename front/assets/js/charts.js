@@ -46,7 +46,22 @@
                     bottom: 70,
                     left: 40
                 },
-                width = columnWidth - margin.left - margin.right;
+                width = columnWidth - margin.left - margin.right,
+                height = Math.max(width / 3, 250) - margin.top - margin.bottom;
+
+        // Set the ranges
+        const x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+        const y = d3.scale.linear().range([height, 0]);
+
+        // Define the axis
+        const xAxis = d3.svg.axis()
+            .scale(x)
+            .orient('bottom');
+
+        const yAxis = d3.svg.axis()
+            .scale(y)
+            .orient('left')
+            .ticks(10);
 
         d3.json('RRFAnalyzer_' + stat + '.json', function(error, data) {
             if (error) {
@@ -102,7 +117,16 @@
                 containerLegend += containerUpdate;
 
                 tabulate_total(elsewhere, ['Salon', 'Emission cumulée', 'Links total', 'TX total', 'TX moyen', 'Intempestifs total'], containerSelector, containerTitle, containerLegend, width + margin.left + margin.right); // 4 columns table
+
                 d3.select(containerSelector).append('span').html(containerLegend);
+
+                if(stat != 'd' && stat != 'w' && stat != 'm') {
+                    containerSelector = '.graph-global';
+                    graph(data['Histogram'], containerSelector, columnWidth);
+
+                    containerLegend = 'Ce graph présente l\'émission cumulée jour après jours. ';
+                    d3.select(containerSelector).append('span').html(containerLegend);
+                }
 
                 containerSelector = '.tot-graph';
                 containerTitle = '<div class="icon"><i class="icofont-wall-clock"></i></div> Emission cumulée';
