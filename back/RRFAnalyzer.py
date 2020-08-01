@@ -20,6 +20,7 @@ import time
 import sys
 import getopt
 import json
+import collections
 
 def main(argv):
     # Check and get arguments
@@ -116,6 +117,7 @@ def main(argv):
     # Loop
 
     flux = {}
+    graph = {}
 
     for r in s.analyse_room:
         time_max = 0
@@ -155,6 +157,15 @@ def main(argv):
                 rrf_data = rrf_data.replace('Extended', '') # Fix old format !
                 try:
                     rrf_data = json.loads(rrf_data)
+
+
+                    tmp = f.split('-')
+                    created_data = tmp[3][0:2] + '/' + tmp[2] + '/' + tmp[1]
+                    for data in rrf_data['abstract']:
+                        if created_data in graph:
+                            graph[created_data] += l.convert_time_to_second(data['Emission cumulée'])
+                        else:
+                            graph[created_data] = l.convert_time_to_second(data['Emission cumulée'])
 
                     for data in rrf_data['all']:
                         indicatif = data['Indicatif']
@@ -334,6 +345,15 @@ def main(argv):
 
     now = datetime.datetime.now()
     flux.update({'Update': now.strftime('%H:%M, le %d/%m/%Y')})
+
+    histogram = []
+    od = collections.OrderedDict(sorted(graph.items()))
+    for k, v in od.items():
+        histogram.append({'Date': k, 'Secondes': v, 'Temps': l.convert_second_to_time(v)})
+
+    #print(histogram)
+
+    flux.update({'Histogram': histogram})
 
     print(json.dumps(flux, sort_keys=True))
 

@@ -258,6 +258,145 @@ function tabulate_log(data, columns, selector, title, width) {
 }
 
 //
+// Graph
+//
+
+function graph(data, selector, columnWidth) {
+    d3.select(selector).html('');
+
+    var margin = { top: 30, right: 40, bottom: 70, left: 60 },
+        width = columnWidth - margin.left - margin.right,
+        height = Math.max(width / 2, 250) - margin.top - margin.bottom,
+        tooltip = { width: 125, height: 30, x: 10, y: -20 };
+
+    var parseDate = d3.time.format("%d/%m/%Y").parse,
+        bisectDate = d3.bisector(function(d) { return d.date; }).left,
+        formatValue = d3.format(","),
+        dateFormatter = d3.time.format("%d/%m/%y");
+
+    var x = d3.time.scale()
+            .range([0, width]);
+
+    var y = d3.scale.linear()
+            .range([height, 0]);
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom")
+        .tickFormat(dateFormatter);
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .tickFormat(function(d) {
+            tmp = new Date(d * 1000).toISOString().substr(11, 5)+'m'
+            tmp = tmp.replace(':', 'h ')
+            return tmp
+        });
+
+    var line = d3.svg.line()
+        .x(function(d) { return x(d.date); })
+        .y(function(d) { return y(d.secondes); })
+        .interpolate("cardinal");
+
+    var svg = d3.select(selector).append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    data.forEach(function(d) {
+        d.date = parseDate(d.Date);
+        d.secondes = d.Secondes;
+    });
+
+    data.sort(function(a, b) {
+        return a.date - b.date;
+    });
+
+    x.domain([data[0].date, data[data.length - 1].date]);
+    y.domain(d3.extent(data, function(d) { return d.secondes; }));
+
+    svg.append("g")
+        .attr('class', 'x axis')
+        .attr('transform', 'translate(0,' + (height + 0.5) + ')')
+        .call(xAxis)
+        .selectAll('text')
+        .style('text-anchor', 'end')
+        .attr('dx', '-.8em')
+        .attr('dy', '-.55em')
+        .attr('transform', 'rotate(-45)');
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(0,0)")
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(0)")
+        .attr("x", 100)
+        .attr("y", 0)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("Emission cumulée");
+
+    svg.append("path")
+        .datum(data)
+        .attr("class", "line")
+        .attr("d", line);
+
+    var focus = svg.append("g")
+        .attr("class", "focus")
+        .style("display", "none");
+
+    focus.append("circle")
+        .attr("r", 5);
+
+    focus.append("rect")
+        .attr("class", "tooltip")
+        .attr("width", 125)
+        .attr("height", 30)
+        .attr("x", 10)
+        .attr("y", -22)
+        .attr("rx", 4)
+        .attr("ry", 4);
+
+    focus.append("text")
+        .attr("class", "tooltip-date")
+        .attr("x", 18)
+        .attr("y", -2);
+
+    focus.append("text")
+        .attr("x", 18)
+        .attr("y", 18)
+
+    focus.append("text")
+        .attr("class", "tooltip-likes")
+        .attr("x", 78)
+        .attr("y", -2);
+
+    svg.append("rect")
+        .attr("class", "overlay")
+        .attr("width", width)
+        .attr("height", height)
+        .on("mouseover", function() { focus.style("display", null); })
+        .on("mouseout", function() { focus.style("display", "none"); })
+        .on("mousemove", mousemove);
+
+    function mousemove() {
+        var x0 = x.invert(d3.mouse(this)[0]),
+            i = bisectDate(data, x0, 1),
+            d0 = data[i - 1],
+            d1 = data[i],
+            d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+        focus.attr("transform", "translate(" + x(d.date) + "," + y(d.secondes) + ")");
+        focus.select(".tooltip-date").text(dateFormatter(d.date));
+        focus.select(".tooltip-likes").text(
+            tmp = new Date(d.secondes * 1000).toISOString().substr(11, 5).replace(':', 'h ')+'m'
+        );
+    }
+}
+
+//
 // Stat table
 //
 

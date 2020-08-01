@@ -345,3 +345,44 @@ mark {
   font: 20px Arial, Helvetica, sans-serif;
   letter-spacing: .2rem;
 }
+
+.axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    .x.axis path {
+        display: none;
+    }
+
+    .line {
+        fill: none;
+        stroke: var(--color-theme);
+        stroke-width: 1.5px;
+    }
+
+    .overlay {
+        fill: none;
+        pointer-events: all;
+    }
+
+    .focus circle {
+        fill: var(--color-theme);
+    }
+
+    .focus text {
+        font-size: 14px;
+    }
+
+    .tooltip {
+        fill: white;
+        stroke: #000;
+        opacity: 75%;
+    }
+
+    .tooltip-date, .tooltip-likes {
+        font: 20px Arial, Helvetica, sans-serif;
+        font-weight: normal;
+    }
