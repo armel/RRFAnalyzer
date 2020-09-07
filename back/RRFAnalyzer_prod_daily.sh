@@ -10,3 +10,4 @@ python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --day 120 --format JSON > $PATH_L
 python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --day 180 --format JSON > $PATH_LOG/RRFAnalyzer_d180.json
 python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --day 240 --format JSON > $PATH_LOG/RRFAnalyzer_d240.json
 python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --day 300 --format JSON > $PATH_LOG/RRFAnalyzer_d300.json
+python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --day 360 --format JSON > $PATH_LOG/RRFAnalyzer_d360.json

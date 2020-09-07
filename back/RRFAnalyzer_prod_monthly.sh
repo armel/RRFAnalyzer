@@ -16,8 +16,10 @@ python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --month -8 --format JSON > $PATH_
 python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --month -9 --format JSON > $PATH_LOG/RRFAnalyzer_m9.json
 python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --month -10 --format JSON > $PATH_LOG/RRFAnalyzer_m10.json
 python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --month -11 --format JSON > $PATH_LOG/RRFAnalyzer_m11.json
+python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --month -12 --format JSON > $PATH_LOG/RRFAnalyzer_m12.json
 python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --day 60 --format JSON > $PATH_LOG/RRFAnalyzer_d60.json
 python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --day 120 --format JSON > $PATH_LOG/RRFAnalyzer_d120.json
 python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --day 180 --format JSON > $PATH_LOG/RRFAnalyzer_d180.json
 python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --day 240 --format JSON > $PATH_LOG/RRFAnalyzer_d240.json
 python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --day 300 --format JSON > $PATH_LOG/RRFAnalyzer_d300.json
+python3 $PATH_SCRIPT/RRFAnalyzer.py --room ALL --day 360 --format JSON > $PATH_LOG/RRFAnalyzer_d360.json
