@@ -69,7 +69,7 @@ def main(argv):
                 print('Unknown room name (choose between \'ALL\', \'RRF\', \'TECHNIQUE\', \'BAVARDAGE\', \'LOCAL\', \'INTERNATIONAL\' and \'FON\')')
                 sys.exit()
             if arg == 'ALL':
-                s.analyse_room = ['RRF', 'TECHNIQUE', 'BAVARDAGE', 'LOCAL', 'INTERNATIONAL']
+                s.analyse_room = ['RRF', 'TECHNIQUE', 'BAVARDAGE', 'LOCAL', 'INTERNATIONAL', 'FON']
             else:
                 s.analyse_room = [arg]
         elif opt in ('--order'):

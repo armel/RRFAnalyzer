@@ -67,7 +67,7 @@
             if (error) {
                 return console.warn('Erreur', error);
             } else {
-                var room = ['Global', 'RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
+                var room = ['Global', 'RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
                 var elsewhere = [];
                 var where;
                 var wherePatch;
@@ -120,7 +120,7 @@
 
                 d3.select(containerSelector).append('span').html(containerLegend);
 
-                if(stat != 'd' && stat != 'w' && stat != 'm') {
+                if(stat != 'd' && stat != 'w') {
                     containerSelector = '.graph-global';
                     graph(data['Histogram'], containerSelector, columnWidth);
 
