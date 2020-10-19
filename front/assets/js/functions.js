@@ -264,10 +264,10 @@ function tabulate_log(data, columns, selector, title, width) {
 function graph(data, selector, columnWidth) {
     d3.select(selector).html('');
 
-    var margin = { top: 30, right: 40, bottom: 70, left: 60 },
-        width = columnWidth - margin.left - margin.right,
+    var margin = { top: 40, right: 40, bottom: 70, left: 60 },
+        width = columnWidth - margin.left,
         height = Math.max(width / 2, 250) - margin.top - margin.bottom,
-        tooltip = { width: 125, height: 30, x: 10, y: -20 };
+        tooltip = { width: 110, height: 30, x: -55, y: -20 };
 
     var parseDate = d3.time.format("%d/%m/%Y").parse,
         bisectDate = d3.bisector(function(d) { return d.date; }).left,
@@ -364,26 +364,22 @@ function graph(data, selector, columnWidth) {
 
     focus.append("rect")
         .attr("class", "tooltip")
-        .attr("width", 125)
+        .attr("width", 110)
         .attr("height", 30)
-        .attr("x", 10)
-        .attr("y", -22)
+        .attr("x", -55)
+        .attr("y", -40)
         .attr("rx", 4)
         .attr("ry", 4);
 
     focus.append("text")
         .attr("class", "tooltip-date")
-        .attr("x", 18)
-        .attr("y", -2);
-
-    focus.append("text")
-        .attr("x", 18)
-        .attr("y", 18)
+        .attr("x", -51)
+        .attr("y", -20);
 
     focus.append("text")
         .attr("class", "tooltip-likes")
-        .attr("x", 78)
-        .attr("y", -2);
+        .attr("x", 4)
+        .attr("y", -20);
 
     svg.append("rect")
         .attr("class", "overlay")

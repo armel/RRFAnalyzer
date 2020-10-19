@@ -388,6 +388,6 @@ mark {
     }
 
     .tooltip-date, .tooltip-likes {
-        font: 20px Arial, Helvetica, sans-serif;
+        font: 12px Arial, Helvetica, sans-serif !important;
         font-weight: normal;
     }
