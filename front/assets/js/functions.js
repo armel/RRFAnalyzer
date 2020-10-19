@@ -294,6 +294,12 @@ function graph(data, selector, columnWidth) {
             return tmp
         });
 
+    var area = d3.svg.area()
+        .x(function(d) { return x(d.date); })
+        .y0(height)
+        .y1(function(d) { return y(d.secondes); })
+        .interpolate("cardinal");
+
     var line = d3.svg.line()
         .x(function(d) { return x(d.date); })
         .y(function(d) { return y(d.secondes); })
@@ -338,6 +344,11 @@ function graph(data, selector, columnWidth) {
         .attr("dy", ".71em")
         .style("text-anchor", "end")
         .text("Emission cumulée");
+
+    svg.append("path")
+       .data([data])
+       .attr("class", "area")
+       .attr("d", area);
 
     svg.append("path")
         .datum(data)
