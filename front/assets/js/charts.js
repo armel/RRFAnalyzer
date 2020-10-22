@@ -67,6 +67,7 @@
             if (error) {
                 return console.warn('Erreur', error);
             } else {
+                //var room = ['Global', 'RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
                 var room = ['Global', 'RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
                 var elsewhere = [];
                 var where;

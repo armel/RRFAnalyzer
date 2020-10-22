@@ -69,6 +69,7 @@ def main(argv):
                 print('Unknown room name (choose between \'ALL\', \'RRF\', \'TECHNIQUE\', \'BAVARDAGE\', \'LOCAL\', \'INTERNATIONAL\' and \'FON\')')
                 sys.exit()
             if arg == 'ALL':
+                #s.analyse_room = ['RRF', 'TECHNIQUE', 'BAVARDAGE', 'LOCAL', 'INTERNATIONAL', 'FON']
                 s.analyse_room = ['RRF', 'TECHNIQUE', 'BAVARDAGE', 'LOCAL', 'INTERNATIONAL']
             else:
                 s.analyse_room = [arg]
@@ -170,23 +171,25 @@ def main(argv):
                     for data in rrf_data['all']:
                         indicatif = data['Indicatif']
                         check = indicatif.split(' ')
-                        if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF', 'GW-ALLSTAR-40020']:
-                            try:
-                                all[indicatif][0] += l.convert_time_to_second(data['Durée'])
-                                if all[indicatif][0] > time_max:
-                                    time_max = all[indicatif][0]
-                                all[indicatif][1] += data['TX']
-                            except:
-                                all[indicatif] = [l.convert_time_to_second(data['Durée']), data['TX'], 0, 0, 0]
+                        if 'proxy to:' not in indicatif: # Sometimes bug
+                            if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF', 'GW-ALLSTAR-40020'] or r == 'FON':
+                                try:
+                                    all[indicatif][0] += l.convert_time_to_second(data['Durée'])
+                                    if all[indicatif][0] > time_max:
+                                        time_max = all[indicatif][0]
+                                    all[indicatif][1] += data['TX']
+                                except:
+                                    all[indicatif] = [l.convert_time_to_second(data['Durée']), data['TX'], 0, 0, 0]
 
                     for data in rrf_data['porteuse']:
                         indicatif = data['Indicatif']
                         check = indicatif.split(' ')
-                        if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF', 'GW-ALLSTAR-40020']:
-                            try:
-                                all[indicatif][2] += data['TX']
-                            except:
-                                all[indicatif] = [0, 0, data['TX'], 0, 0]
+                        if 'proxy to:' not in indicatif: # Sometimes bug
+                            if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF', 'GW-ALLSTAR-40020'] or r == 'FON':
+                                try:
+                                    all[indicatif][2] += data['TX']
+                                except:
+                                    all[indicatif] = [0, 0, data['TX'], 0, 0]
                 except:
                     pass 
 
