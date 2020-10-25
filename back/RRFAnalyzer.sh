@@ -51,11 +51,11 @@ case "$WHEN" in
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --week 0     --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_w.json
         ;;
     hour)
-        echo "Compute Hourly on $WHERE"
+        echo "Compute Hour on $WHERE"
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --month 0    --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_m.json
         ;;
     day)
-        echo "Compute Daily on $WHERE"
+        echo "Compute Day on $WHERE"
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --day 60     --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_d60.json
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --day 120    --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_d120.json
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --day 180    --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_d180.json
@@ -64,7 +64,7 @@ case "$WHEN" in
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --day 360    --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_d360.json
         ;;
     month)
-        echo "Compute Monthly on $WHERE"
+        echo "Compute Month on $WHERE"
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --month -1   --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_m1.json
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --month -2   --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_m2.json
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --month -3   --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_m3.json
