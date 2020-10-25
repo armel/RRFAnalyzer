@@ -27,6 +27,11 @@
             localStorage.setItem('color', 'DarkOrange');
         }
         
+        // Initialise debug
+        if (localStorage.getItem('debug') === null) {
+            localStorage.setItem('debug', 0);
+        }
+
         var colorSelected = localStorage.getItem('color');
 
         var bodyStyles = document.body.style;
@@ -63,12 +68,18 @@
             .orient('left')
             .ticks(10);
 
-        d3.json('RRFAnalyzer_' + stat + '.json', function(error, data) {
+        var filename = 'RRFAnalyzer_' + stat + '_' + localStorage.getItem('debug') + '.json'
+
+        d3.json(filename, function(error, data) {
             if (error) {
                 return console.warn('Erreur', error);
             } else {
-                //var room = ['Global', 'RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
                 var room = ['Global', 'RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
+
+                if (localStorage.getItem('debug') == 1) {
+                    room.push('FON');
+                }
+
                 var elsewhere = [];
                 var where;
                 var wherePatch;

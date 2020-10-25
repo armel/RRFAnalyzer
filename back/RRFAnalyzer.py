@@ -48,7 +48,7 @@ def main(argv):
             s.analyse_year = arg
         elif opt in ('--month'):
             s.analyse_month = arg
-            if int(s.analyse_month) < 0:
+            if int(s.analyse_month) <= 0:
                 today = datetime.date.today().strftime("%Y-%m-%d")
                 today = datetime.datetime.strptime(today, '%Y-%m-%d').date()
                 past = today + relativedelta(months=int(s.analyse_month))
@@ -65,12 +65,13 @@ def main(argv):
             s.analyse_day = arg
             s.analyse_type = 'day'
         elif opt in ('--room'):
-            if arg not in ['ALL', 'RRF', 'TECHNIQUE', 'BAVARDAGE', 'LOCAL', 'INTERNATIONAL', 'FON']:
-                print('Unknown room name (choose between \'ALL\', \'RRF\', \'TECHNIQUE\', \'BAVARDAGE\', \'LOCAL\', \'INTERNATIONAL\' and \'FON\')')
+            if arg not in ['ALL', 'EXTRA', 'RRF', 'TECHNIQUE', 'BAVARDAGE', 'LOCAL', 'INTERNATIONAL', 'FON']:
+                print('Unknown room name (choose between \'ALL\', \'EXTRA\', \'RRF\', \'TECHNIQUE\', \'BAVARDAGE\', \'LOCAL\', \'INTERNATIONAL\' and \'FON\')')
                 sys.exit()
             if arg == 'ALL':
-                #s.analyse_room = ['RRF', 'TECHNIQUE', 'BAVARDAGE', 'LOCAL', 'INTERNATIONAL', 'FON']
                 s.analyse_room = ['RRF', 'TECHNIQUE', 'BAVARDAGE', 'LOCAL', 'INTERNATIONAL']
+            elif arg == 'EXTRA':
+                s.analyse_room = ['RRF', 'TECHNIQUE', 'BAVARDAGE', 'LOCAL', 'INTERNATIONAL', 'FON']
             else:
                 s.analyse_room = [arg]
         elif opt in ('--order'):
