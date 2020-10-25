@@ -6,7 +6,8 @@ Analyseur des statistiques d'utilisation du RRF.
 À ajouter dans la crontab
 
 ```
-export VISUAL=vi
+$ export VISUAL=vi
+$ crontab -e
 ```
 
 ```
