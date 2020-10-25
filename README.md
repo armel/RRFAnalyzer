@@ -6,8 +6,13 @@ Analyseur des statistiques d'utilisation du RRF.
 À ajouter dans la crontab
 
 ```
-*/15 * * * * python3 /opt/RRFAnalyzer/back/RRFAnalyzer.py --room ALL --day 1 --format JSON > /var/www/RRFAnalyzer/RRFAnalyzer_d.json
-*/30 * * * * python3 /opt/RRFAnalyzer/back/RRFAnalyzer.py --room ALL --week 0 --format JSON > /var/www/RRFAnalyzer/RRFAnalyzer_w.json
-00 */2 * * * python3 /opt/RRFAnalyzer/back/RRFAnalyzer.py --room ALL --format JSON > /var/www/RRFAnalyzer/RRFAnalyzer_m.json
-05 02 * * * /opt/RRFAnalyzer/back/RRFAnalyzer_daily.sh
-00 01 1 * * /opt/RRFAnalyzer/back/RRFAnalyzer_monthly.sh```
+export VISUAL=vi
+```
+
+```
+*/15 * * * * /opt/RRFAnalyzer/back/RRFAnalyzer.sh prod quarter
+*/30 * * * * /opt/RRFAnalyzer/back/RRFAnalyzer.sh prod half
+00 */2 * * * /opt/RRFAnalyzer/back/RRFAnalyzer.sh prod hour
+05 02 * * *  /opt/RRFAnalyzer/back/RRFAnalyzer.sh prod day
+00 01 1 * *  /opt/RRFAnalyzer/back/RRFAnalyzer.sh prod month
+```
