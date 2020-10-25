@@ -1,5 +1,13 @@
 #!/bin/sh
 
+# 
+# */15 * * * * /opt/RRFAnalyzer/back/RRFAnalyzer.sh prod quarter
+# */30 * * * * /opt/RRFAnalyzer/back/RRFAnalyzer.sh prod half
+# 00 */2 * * * /opt/RRFAnalyzer/back/RRFAnalyzer.sh prod hour
+# 05 02 * * *  /opt/RRFAnalyzer/back/RRFAnalyzer.sh prod day
+# 00 01 1 * *  /opt/RRFAnalyzer/back/RRFAnalyzer.sh prod month
+#
+
 # Set default values
 
 if [ -z "$1" ]
@@ -46,7 +54,7 @@ case "$WHEN" in
         echo "Compute Hourly on $WHERE"
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --month 0    --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_m.json
         ;;
-    daily)
+    day)
         echo "Compute Daily on $WHERE"
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --day 60     --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_d60.json
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --day 120    --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_d120.json
@@ -55,7 +63,7 @@ case "$WHEN" in
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --day 300    --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_d300.json
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --day 360    --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_d360.json
         ;;
-    monthly)
+    month)
         echo "Compute Monthly on $WHERE"
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --month -1   --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_m1.json
         python3 $PATH_SCRIPT/RRFAnalyzer.py --room $room --month -2   --format JSON --path $PATH_DATA > $PATH_LOG/RRFAnalyzer_m2.json
