@@ -68,17 +68,13 @@
             .orient('left')
             .ticks(10);
 
-        var filename = 'RRFAnalyzer_' + stat + '_' + localStorage.getItem('debug') + '.json'
+        var filename = 'RRFAnalyzer_' + stat + '.json'
 
         d3.json(filename, function(error, data) {
             if (error) {
                 return console.warn('Erreur', error);
             } else {
-                var room = ['Global', 'RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
-
-                if (localStorage.getItem('debug') == 1) {
-                    room.push('FON');
-                }
+                var room = ['Global', 'RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
 
                 var elsewhere = [];
                 var where;
