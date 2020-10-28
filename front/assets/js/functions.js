@@ -15,6 +15,15 @@ function number_format(x) {
 }
 
 //
+// Format date
+//
+
+function date_format(x){
+    var p = x.split("/")
+    return [p[2],p[1],p[0] ].join("/")
+}
+
+//
 // Total table 
 //
 
@@ -241,6 +250,9 @@ function tabulate_log(data, columns, selector, title, width) {
                 } 
                 else if (d.column == 'TX total' || d.column == 'Intempestifs total') {
                     return number_format(d.value);
+                }
+                else if (d.column == 'Last') {
+                    return date_format(d.value);
                 }
                 else if (d.column == 'Ratio') {
                     if (is_float(d.value)) {

@@ -163,6 +163,7 @@ def main(argv):
 
                     tmp = f.split('-')
                     created_data = tmp[3][0:2] + '/' + tmp[2] + '/' + tmp[1]
+                    created_data_iso = tmp[1] + '/' + tmp[2] + '/' + tmp[3][0:2]
                     for data in rrf_data['abstract']:
                         if created_data in graph:
                             graph[created_data] += l.convert_time_to_second(data['Emission cumulée'])
@@ -179,8 +180,10 @@ def main(argv):
                                     if all[indicatif][0] > time_max:
                                         time_max = all[indicatif][0]
                                     all[indicatif][1] += data['TX']
+                                    if created_data_iso > all[indicatif][5]: 
+                                        all[indicatif][5] = created_data_iso  
                                 except:
-                                    all[indicatif] = [l.convert_time_to_second(data['Durée']), data['TX'], 0, 0, 0]
+                                    all[indicatif] = [l.convert_time_to_second(data['Durée']), data['TX'], 0, 0, 0, created_data_iso]
 
                     for data in rrf_data['porteuse']:
                         indicatif = data['Indicatif']
@@ -189,8 +192,10 @@ def main(argv):
                             if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF', 'GW-ALLSTAR-40020'] or r == 'FON':
                                 try:
                                     all[indicatif][2] += data['TX']
+                                    if created_data_iso > all[indicatif][5]:
+                                        all[indicatif][5] = created_data_iso
                                 except:
-                                    all[indicatif] = [0, 0, data['TX'], 0, 0]
+                                    all[indicatif] = [0, 0, data['TX'], 0, 0, created_data_iso]
                 except:
                     pass 
 
@@ -254,7 +259,7 @@ def main(argv):
         log = []
         indice = 1
         for e in tmp:
-            log.append({'Pos': indice, 'Indicatif': e[0], 'Emission cumulée': l.convert_second_to_time(e[1][0], time_format), 'TX total': e[1][1], 'TX moyen': e[1][4], 'Intempestifs total': e[1][2], 'Ratio': e[1][3]})
+            log.append({'Pos': indice, 'Indicatif': e[0], 'Emission cumulée': l.convert_second_to_time(e[1][0], time_format), 'TX total': e[1][1], 'TX moyen': e[1][4], 'Intempestifs total': e[1][2], 'Ratio': e[1][3], 'Last': e[1][5]})
             indice += 1
 
         # Prepare JSON
@@ -270,8 +275,9 @@ def main(argv):
             emission = l.convert_time_to_second(e['Emission cumulée'])
             tx = e['TX total']
             intempestifs = e['Intempestifs total']
+            last = e['Last']
 
-            #print r, indicatif, emission, tx, intempestifs
+            #print r, indicatif, emission, tx, intempestifs, last
 
             if indicatif in total:
                 total[indicatif][0] += emission
@@ -279,7 +285,7 @@ def main(argv):
                 total[indicatif][2] += intempestifs
 
             else:
-                total[indicatif] = [emission, tx, intempestifs, 0, 0]
+                total[indicatif] = [emission, tx, intempestifs, 0, 0, last]
 
     # Compute ratio and abstract
 
@@ -337,10 +343,10 @@ def main(argv):
 
     log = []
     indice = 1
-    for e in tmp:
-        log.append({'Pos': indice, 'Indicatif': e[0], 'Emission cumulée': l.convert_second_to_time(e[1][0], time_format), 'TX total': e[1][1], 'TX moyen': e[1][4], 'Intempestifs total': e[1][2], 'Ratio': e[1][3]})
-        indice += 1
 
+    for e in tmp:
+        log.append({'Pos': indice, 'Indicatif': e[0], 'Emission cumulée': l.convert_second_to_time(e[1][0], time_format), 'TX total': e[1][1], 'TX moyen': e[1][4], 'Intempestifs total': e[1][2], 'Ratio': e[1][3], 'Last': e[1][5]})
+        indice += 1
 
     flux.update({'Global': {'abstract': [abstract], 'log': log}})
 

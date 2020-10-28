@@ -69,7 +69,7 @@
             .ticks(10);
 
         var filename = 'RRFAnalyzer_' + stat + '.json'
-
+        
         d3.json(filename, function(error, data) {
             if (error) {
                 return console.warn('Erreur', error);
@@ -112,10 +112,10 @@
 
                     containerSelector = '.log-' + r.toLowerCase();
                     containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> Log ' + wherePatch;
-                    containerLegend = 'Ce tableau présente l\'activité ' + where + ' par link : émission cumulée, nombre total de passages en émission, de déclenchements intempestifs et ratio. Le ratio est calculé en divisant le nombre de secondes en émission par le nombre de déclenchements intempestifs. Plus ce ratio est faible, plus le link est perturbant...';
+                    containerLegend = 'Ce tableau présente l\'activité ' + where + ' par link : émission cumulée, nombre total de passages en émission, de déclenchements intempestifs, ratio ainsi que la dernière date d\'activité. Le ratio est calculé en divisant le nombre de secondes en émission par le nombre de déclenchements intempestifs. Plus ce ratio est faible, plus le link est perturbant...';
                     containerLegend += containerUpdate;
 
-                    tabulate_log(data[r].log, ['Pos', 'Indicatif', 'Emission cumulée', 'TX total', 'TX moyen', 'Intempestifs total', 'Ratio'], containerSelector, containerTitle, width + margin.left + margin.right); // 4 columns table
+                    tabulate_log(data[r].log, ['Pos', 'Indicatif', 'Emission cumulée', 'TX total', 'TX moyen', 'Intempestifs total', 'Ratio', 'Last'], containerSelector, containerTitle, width + margin.left + margin.right); // 4 columns table
                     d3.select(containerSelector).append('span').html(containerLegend);
                 });
 
