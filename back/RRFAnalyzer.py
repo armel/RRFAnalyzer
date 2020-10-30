@@ -283,7 +283,9 @@ def main(argv):
                 total[indicatif][0] += emission
                 total[indicatif][1] += tx
                 total[indicatif][2] += intempestifs
-
+                if total[indicatif][5] < last:
+                    total[indicatif][5] = last
+                    
             else:
                 total[indicatif] = [emission, tx, intempestifs, 0, 0, last]
 
