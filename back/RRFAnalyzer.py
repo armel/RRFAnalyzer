@@ -174,7 +174,7 @@ def main(argv):
                         indicatif = data['Indicatif']
                         check = indicatif.split(' ')
                         if 'proxy to:' not in indicatif: # Sometimes bug
-                            if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF', 'GW-ALLSTAR-40020'] or r == 'FON':
+                            if len(check) == 3 or indicatif in ['GW-C4FM-30262', 'RRF', 'GW-ALLSTAR-40020'] or r == 'FON':
                                 try:
                                     all[indicatif][0] += l.convert_time_to_second(data['Durée'])
                                     if all[indicatif][0] > time_max:
@@ -189,7 +189,7 @@ def main(argv):
                         indicatif = data['Indicatif']
                         check = indicatif.split(' ')
                         if 'proxy to:' not in indicatif: # Sometimes bug
-                            if len(check) == 3 or indicatif in ['GW-C4FM', 'RRF', 'GW-ALLSTAR-40020'] or r == 'FON':
+                            if len(check) == 3 or indicatif in ['GW-C4FM-30262', 'RRF', 'GW-ALLSTAR-40020'] or r == 'FON':
                                 try:
                                     all[indicatif][2] += data['TX']
                                     if created_data_iso > all[indicatif][5]:
