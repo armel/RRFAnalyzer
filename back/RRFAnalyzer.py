@@ -59,7 +59,8 @@ def main(argv):
         elif opt in ('--week'):
             s.analyse_week = arg
             if s.analyse_week == '0':
-                s.analyse_week = str(datetime.date.today().isocalendar()[1] - 1)
+                #s.analyse_week = str(datetime.date.today().isocalendar()[1] - 1)
+                s.analyse_week = str(datetime.date.today().isocalendar()[1]) # Patch week (29/05/2021) 
             s.analyse_type = 'week'
         elif opt in ('--day'):
             s.analyse_day = arg
